@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8080/WEBSERVICEFERIAVIRTUAL2/WSFERIAVIRTUAL?WSDL" uri="xml-resources/web-service-references/WSFERIAVIRTUAL/wsdl/localhost_8080/WEBSERVICEFERIAVIRTUAL2/WSFERIAVIRTUAL.wsdl"/>
+    <system systemId="http://localhost:8080/WEBSERVICEFERIAVIRTUAL2/WSFERIAVIRTUAL?xsd=1" uri="xml-resources/web-service-references/WSFERIAVIRTUAL/wsdl/localhost_8080/WEBSERVICEFERIAVIRTUAL2/WSFERIAVIRTUAL.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/WSREPORTERIAFERIAVIRTUAL/WSREPORTERIAFV?WSDL" uri="xml-resources/web-service-references/WSREPORTERIAFV/wsdl/localhost_8080/WSREPORTERIAFERIAVIRTUAL/WSREPORTERIAFV.wsdl"/>
+    <system systemId="http://localhost:8080/WSREPORTERIAFERIAVIRTUAL/WSREPORTERIAFV?xsd=1" uri="xml-resources/web-service-references/WSREPORTERIAFV/wsdl/localhost_8080/WSREPORTERIAFERIAVIRTUAL/WSREPORTERIAFV.xsd_1.xsd"/>
+</catalog>

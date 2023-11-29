@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.3 (RELEASE-2.4.3-ad3323c; 2019-01-21T17:46:06+0000) JAXWS-RI/2.3.2 JAXWS-API/2.3.2 JAXB-RI/2.3.2 JAXB-API/2.3.2 git-revision#unknown. --><xs:schema xmlns:tns="http://SW/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://SW/">
+
+<xs:element name="reporteDetallePedidos" type="tns:reporteDetallePedidos"/>
+
+<xs:element name="reporteDetallePedidosResponse" type="tns:reporteDetallePedidosResponse"/>
+
+<xs:element name="reporteDetallePedidosxAnio" type="tns:reporteDetallePedidosxAnio"/>
+
+<xs:element name="reporteDetallePedidosxAnioResponse" type="tns:reporteDetallePedidosxAnioResponse"/>
+
+<xs:element name="reportePedidosCancelados_1" type="tns:reportePedidosCancelados_1"/>
+
+<xs:element name="reportePedidosCancelados_1Response" type="tns:reportePedidosCancelados_1Response"/>
+
+<xs:element name="reportePedidosCancelados_2" type="tns:reportePedidosCancelados_2"/>
+
+<xs:element name="reportePedidosCancelados_2Response" type="tns:reportePedidosCancelados_2Response"/>
+
+<xs:element name="reportePedidosCancelados_3" type="tns:reportePedidosCancelados_3"/>
+
+<xs:element name="reportePedidosCancelados_3Response" type="tns:reportePedidosCancelados_3Response"/>
+
+<xs:element name="reportePedidosOK_1" type="tns:reportePedidosOK_1"/>
+
+<xs:element name="reportePedidosOK_1Response" type="tns:reportePedidosOK_1Response"/>
+
+<xs:element name="reportePedidosOK_2" type="tns:reportePedidosOK_2"/>
+
+<xs:element name="reportePedidosOK_2Response" type="tns:reportePedidosOK_2Response"/>
+
+<xs:element name="reportePedidosOK_3" type="tns:reportePedidosOK_3"/>
+
+<xs:element name="reportePedidosOK_3Response" type="tns:reportePedidosOK_3Response"/>
+
+<xs:complexType name="reportePedidosOK_2">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reportePedidosOK_2Response">
+<xs:sequence>
+<xs:element name="return" type="tns:reporte" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reporte">
+<xs:sequence>
+<xs:element name="bodegamp_idbodega" type="xs:string" minOccurs="0"/>
+<xs:element name="cantidad" type="xs:int"/>
+<xs:element name="cliente_id_cliente" type="xs:string" minOccurs="0"/>
+<xs:element name="comisionmaipogrande" type="xs:int"/>
+<xs:element name="desccalibre" type="xs:string" minOccurs="0"/>
+<xs:element name="descripcionestado" type="xs:string" minOccurs="0"/>
+<xs:element name="estadopedido_idestado" type="xs:string" minOccurs="0"/>
+<xs:element name="fechainicio" type="xs:string" minOccurs="0"/>
+<xs:element name="fechapedido" type="xs:string" minOccurs="0"/>
+<xs:element name="fechatermino" type="xs:string" minOccurs="0"/>
+<xs:element name="idpedido" type="xs:string" minOccurs="0"/>
+<xs:element name="iva" type="xs:int"/>
+<xs:element name="nombrebodega" type="xs:string" minOccurs="0"/>
+<xs:element name="nombreproducto" type="xs:string" minOccurs="0"/>
+<xs:element name="pesototalpedido" type="xs:int"/>
+<xs:element name="rutproductor" type="xs:string" minOccurs="0"/>
+<xs:element name="tiposeguro_idtiposeguro" type="xs:string" minOccurs="0"/>
+<xs:element name="totalfinal" type="xs:int"/>
+<xs:element name="totalpedido" type="xs:int"/>
+<xs:element name="totaltransporte" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reporteDetallePedidosxAnio">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reporteDetallePedidosxAnioResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:reporte" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reportePedidosOK_3">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reportePedidosOK_3Response">
+<xs:sequence>
+<xs:element name="return" type="tns:reporte" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reportePedidosOK_1">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reportePedidosOK_1Response">
+<xs:sequence>
+<xs:element name="return" type="tns:reporte" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reporteDetallePedidos">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="reporteDetallePedidosResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:reporte" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reportePedidosCancelados_1">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reportePedidosCancelados_1Response">
+<xs:sequence>
+<xs:element name="return" type="tns:reporte" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reportePedidosCancelados_2">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reportePedidosCancelados_2Response">
+<xs:sequence>
+<xs:element name="return" type="tns:reporte" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reportePedidosCancelados_3">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reportePedidosCancelados_3Response">
+<xs:sequence>
+<xs:element name="return" type="tns:reporte" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
