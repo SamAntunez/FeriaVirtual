@@ -69,18 +69,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="reporteDetallePedidosxAnio">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="reporteDetallePedidosxAnioResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:reporte" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="reportePedidosOK_3">
 <xs:sequence>
 <xs:element name="arg0" type="xs:string" minOccurs="0"/>
@@ -89,6 +77,18 @@
 </xs:complexType>
 
 <xs:complexType name="reportePedidosOK_3Response">
+<xs:sequence>
+<xs:element name="return" type="tns:reporte" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reporteDetallePedidosxAnio">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reporteDetallePedidosxAnioResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:reporte" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>

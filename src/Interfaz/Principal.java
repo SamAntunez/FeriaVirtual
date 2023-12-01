@@ -73,7 +73,7 @@ private void confirmarCerrarPrograma() {
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
-        btnCliente.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Desktop\\ICONOS\\cliente.png")); // NOI18N
+        btnCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cliente.png"))); // NOI18N
         btnCliente.setText("Cliente");
         btnCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,7 +81,7 @@ private void confirmarCerrarPrograma() {
             }
         });
 
-        btnSubasta.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Desktop\\ICONOS\\subasta.png")); // NOI18N
+        btnSubasta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/subasta.png"))); // NOI18N
         btnSubasta.setText("Subasta");
         btnSubasta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,7 +89,7 @@ private void confirmarCerrarPrograma() {
             }
         });
 
-        btnContrato.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Desktop\\ICONOS\\contrato.png")); // NOI18N
+        btnContrato.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/contrato.png"))); // NOI18N
         btnContrato.setText("Contrato");
         btnContrato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,7 +97,7 @@ private void confirmarCerrarPrograma() {
             }
         });
 
-        btnProductor.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Desktop\\ICONOS\\producto.png")); // NOI18N
+        btnProductor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/producto.png"))); // NOI18N
         btnProductor.setText("Producto/Productor");
         btnProductor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,7 +105,7 @@ private void confirmarCerrarPrograma() {
             }
         });
 
-        btnReporte.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Desktop\\ICONOS\\reporte.png")); // NOI18N
+        btnReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reporte.png"))); // NOI18N
         btnReporte.setText("Reporte");
         btnReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,7 +113,7 @@ private void confirmarCerrarPrograma() {
             }
         });
 
-        btnTransportista.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Desktop\\ICONOS\\trans.png")); // NOI18N
+        btnTransportista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/trans.png"))); // NOI18N
         btnTransportista.setText("Transportista");
         btnTransportista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,7 +121,7 @@ private void confirmarCerrarPrograma() {
             }
         });
 
-        btnConsultor.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Desktop\\ICONOS\\consultor.png")); // NOI18N
+        btnConsultor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/consultor.png"))); // NOI18N
         btnConsultor.setText("Consultor");
         btnConsultor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,7 +129,7 @@ private void confirmarCerrarPrograma() {
             }
         });
 
-        btnCerrarSesion.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Desktop\\ICONOS\\salir.png")); // NOI18N
+        btnCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/salir.png"))); // NOI18N
         btnCerrarSesion.setText("Cerrar Sesión");
         btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,7 +143,7 @@ private void confirmarCerrarPrograma() {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Administrador");
 
-        jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Documents\\NetBeansProjects\\ClienteJAVA\\img\\logo__1_-removebg-preview.png")); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logologo.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,7 +166,7 @@ private void confirmarCerrarPrograma() {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6))
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -198,7 +198,7 @@ private void confirmarCerrarPrograma() {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 100, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1)
@@ -209,8 +209,8 @@ private void confirmarCerrarPrograma() {
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -284,9 +284,11 @@ dispose();
     }//GEN-LAST:event_btnContratoActionPerformed
 
     private void btnSubastaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubastaActionPerformed
-            Subastat pantalla = new Subastat();
+        Subastat pantalla = new Subastat();
         pantalla.setVisible(true);
         pantalla.setLocationRelativeTo(null);
+        
+        dispose();
         
     }//GEN-LAST:event_btnSubastaActionPerformed
 

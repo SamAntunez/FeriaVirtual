@@ -62,7 +62,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel6" min="-2" pref="165" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
@@ -108,7 +108,7 @@
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -121,8 +121,8 @@
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="81" max="32767" attributes="0"/>
+                          <Component id="jLabel6" min="-2" pref="124" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -150,7 +150,7 @@
         <Component class="javax.swing.JButton" name="btnCliente">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\samue\Desktop\ICONOS\cliente.png"/>
+              <Image iconType="3" name="/Imagenes/cliente.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Cliente"/>
           </Properties>
@@ -161,7 +161,7 @@
         <Component class="javax.swing.JButton" name="btnSubasta">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\samue\Desktop\ICONOS\subasta.png"/>
+              <Image iconType="3" name="/Imagenes/subasta.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Subasta"/>
           </Properties>
@@ -172,7 +172,7 @@
         <Component class="javax.swing.JButton" name="btnContrato">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\samue\Desktop\ICONOS\contrato.png"/>
+              <Image iconType="3" name="/Imagenes/contrato.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Contrato"/>
           </Properties>
@@ -183,7 +183,7 @@
         <Component class="javax.swing.JButton" name="btnProductor">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\samue\Desktop\ICONOS\producto.png"/>
+              <Image iconType="3" name="/Imagenes/producto.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Producto/Productor"/>
           </Properties>
@@ -194,7 +194,7 @@
         <Component class="javax.swing.JButton" name="btnReporte">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\samue\Desktop\ICONOS\reporte.png"/>
+              <Image iconType="3" name="/Imagenes/reporte.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Reporte"/>
           </Properties>
@@ -205,7 +205,7 @@
         <Component class="javax.swing.JButton" name="btnTransportista">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\samue\Desktop\ICONOS\trans.png"/>
+              <Image iconType="3" name="/Imagenes/trans.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Transportista"/>
           </Properties>
@@ -216,7 +216,7 @@
         <Component class="javax.swing.JButton" name="btnConsultor">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\samue\Desktop\ICONOS\consultor.png"/>
+              <Image iconType="3" name="/Imagenes/consultor.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Consultor"/>
           </Properties>
@@ -227,7 +227,7 @@
         <Component class="javax.swing.JButton" name="btnCerrarSesion">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\samue\Desktop\ICONOS\salir.png"/>
+              <Image iconType="3" name="/Imagenes/salir.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Cerrar Sesi&#xf3;n"/>
           </Properties>
@@ -260,7 +260,7 @@
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\samue\Documents\NetBeansProjects\ClienteJAVA\img\logo__1_-removebg-preview.png"/>
+              <Image iconType="3" name="/Imagenes/logologo.png"/>
             </Property>
           </Properties>
         </Component>

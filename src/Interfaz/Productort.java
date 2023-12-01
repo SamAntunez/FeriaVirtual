@@ -3,6 +3,8 @@ package Interfaz;
 import Widget.TextPrompt;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import ws.Productor;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
@@ -14,15 +16,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 import util.IconoUtil;
 import ws.Comuna;
 import ws.Pais;
 import ws.Region;
+import com.toedter.calendar.JDateChooser;
+
 
 public class Productort extends javax.swing.JFrame {
+    
+    
     // Mapa para asociar nombres de países con sus IDs
 private Map<String, String> paisesMap = new HashMap<>();
 
@@ -41,13 +50,19 @@ private Map<String, String> comunasMap = new HashMap<>();
         
         txtDireccion.setText("");
         txtCorreo.setText("");
-        txtFecha.setText("");
+        dtchFechaNacimiento.setDateFormatString("");
         txtContra.setText("");
  }
     private WebServiceFV servicioWeb;
     
     public Productort() {
+        txtNombre = new JTextField();
+
+    // Agrega la validación para solo letras
+        agregaValidacionNombre();
         initComponents();
+        agregarKeyListenerRut();
+        agregaKeyListenerDV();
         
         setIconImage(IconoUtil.obtenerIcono());
         tblProductor.setRowSelectionAllowed(false);
@@ -57,7 +72,7 @@ private Map<String, String> comunasMap = new HashMap<>();
         DefaultTableModel model = (DefaultTableModel) tblProductor.getModel();
         tblProductor.setDefaultEditor(Object.class, null);
         tblProductor.setRowSelectionAllowed(false);
-         TextPrompt prueba = new TextPrompt("dd-mm-yyyy", txtFecha);
+         
         // TextPrompt prueba2 = new TextPrompt("1 a 346", txtComuna);
       
         
@@ -141,8 +156,6 @@ private void confirmarCerrarPrograma() {
         tblProductor = new javax.swing.JTable();
         btnAgregar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
-        btnBuscarProductor = new javax.swing.JButton();
         txtNombre = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -155,17 +168,17 @@ private void confirmarCerrarPrograma() {
         jLabel15 = new javax.swing.JLabel();
         txtDV = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtFecha = new javax.swing.JTextField();
         txtContra = new javax.swing.JPasswordField();
         txtDireccion = new javax.swing.JTextField();
         btnEliminar = new javax.swing.JToggleButton();
-        jLabel8 = new javax.swing.JLabel();
         cmbPais = new javax.swing.JComboBox<>();
         cmbRegion = new javax.swing.JComboBox<>();
         cmbComuna = new javax.swing.JComboBox<>();
         txtPais = new javax.swing.JLabel();
         txtRegion = new javax.swing.JLabel();
         txtComunacmb = new javax.swing.JLabel();
+        dtchFechaNacimiento = new com.toedter.calendar.JDateChooser();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -176,6 +189,12 @@ private void confirmarCerrarPrograma() {
 
         jLabel3.setText("Rut");
 
+        txtRut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRutActionPerformed(evt);
+            }
+        });
+
         jLabel4.setText("Nombre");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -183,13 +202,13 @@ private void confirmarCerrarPrograma() {
 
         tblProductor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Rut ", "DV", "Nombre", "Apellido P", "Apellido M", "Fecha nacimiento", "Direccion", "Correo", "Contraseña", "Ciudad"
+                "Rut ", "Nombre", "Apellido P", "Apellido M", "Fecha Nacimiento", "Direccion", "Correo", "Comuna"
             }
         ));
         jScrollPane2.setViewportView(tblProductor);
@@ -208,10 +227,9 @@ private void confirmarCerrarPrograma() {
             }
         });
 
-        btnBuscarProductor.setText("Buscar Productor");
-        btnBuscarProductor.addActionListener(new java.awt.event.ActionListener() {
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarProductorActionPerformed(evt);
+                txtNombreActionPerformed(evt);
             }
         });
 
@@ -220,6 +238,12 @@ private void confirmarCerrarPrograma() {
         jLabel12.setText("Apellido materno");
 
         jLabel13.setText("Direccion");
+
+        txtCorreo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCorreoActionPerformed(evt);
+            }
+        });
 
         jLabel14.setText("Correo");
 
@@ -232,6 +256,12 @@ private void confirmarCerrarPrograma() {
 
         jLabel15.setText("Fecha nacimiento");
 
+        txtDV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDVActionPerformed(evt);
+            }
+        });
+
         jLabel5.setText("Contraseña");
 
         btnEliminar.setBackground(new java.awt.Color(255, 102, 102));
@@ -241,8 +271,6 @@ private void confirmarCerrarPrograma() {
                 btnEliminarActionPerformed(evt);
             }
         });
-
-        jLabel8.setText("-");
 
         cmbPais.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,102 +296,104 @@ private void confirmarCerrarPrograma() {
 
         txtComunacmb.setText("Comuna");
 
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logologo.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(559, 559, 559))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(jLabel6))
-                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel12)
-                            .addComponent(txtPais)
-                            .addComponent(txtRegion)
-                            .addComponent(txtComunacmb)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtApellidop, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtApellidom, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtRut, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                                    .addComponent(txtNombre))
-                                .addGap(12, 12, 12)
-                                .addComponent(txtDV, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(cmbPais, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbRegion, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbComuna, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(btnModificar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                                .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtContra, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(117, 117, 117)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(btnBuscarProductor, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(33, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jLabel1)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(402, 402, 402))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(52, 52, 52)
+                                    .addComponent(jLabel6))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel11)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel12)
+                                        .addComponent(txtPais)
+                                        .addComponent(txtRegion)
+                                        .addComponent(txtComunacmb))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtApellidop, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtApellidom, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(txtRut)
+                                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(12, 12, 12)
+                                            .addComponent(txtDV, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(cmbPais, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cmbRegion, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cmbComuna, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel13)
+                                        .addComponent(jLabel15)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(9, 9, 9)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(dtchFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtContra, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(154, 154, 154)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(683, 683, 683)
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel7)
+                        .addGap(56, 56, 56)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addGap(46, 46, 46)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel6)
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel8))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscarProductor))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
@@ -387,7 +417,7 @@ private void confirmarCerrarPrograma() {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmbComuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtComunacmb))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
                             .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -395,20 +425,19 @@ private void confirmarCerrarPrograma() {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel15)
-                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(15, 15, 15)
+                            .addComponent(dtchFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(17, 17, 17)
+                            .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(72, 72, 72))
         );
@@ -417,13 +446,11 @@ private void confirmarCerrarPrograma() {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -443,22 +470,22 @@ private String obtenerIdComunaSeleccionado() {
     return idComunaSeleccionada;
 }
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-   //String idComunaleccionada = obtenerIdComunaSeleccionado();
-   String idComunaleccionada = obtenerIdComunaSeleccionado();
+    String idComunaleccionada = obtenerIdComunaSeleccionado();
     String rutString = txtRut.getText();
     String dv = txtDV.getText();
     String nombre = txtNombre.getText();
     String apellidop = txtApellidop.getText();
     String apellidom = txtApellidom.getText();
-    String fechaNacimiento = txtFecha.getText();
     String direccion = txtDireccion.getText();
     String correo = txtCorreo.getText();
     String contrasena = new String(txtContra.getPassword());
-   // String comuna = txtComuna.getText(); // Debes establecer el valor de comuna_idcomuna correctamente
+
+    // Obtener la fecha seleccionada del componente DateChooser
+    Date fechaNacimientoDate = dtchFechaNacimiento.getDate();
 
     // Verifica si los campos obligatorios están llenos
     if (rutString.isEmpty() || dv.isEmpty() || nombre.isEmpty() || apellidop.isEmpty() || apellidom.isEmpty() || 
-        fechaNacimiento.isEmpty() || direccion.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || idComunaleccionada.isEmpty()) {
+        fechaNacimientoDate == null || direccion.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || idComunaleccionada.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Por favor, llena todos los campos obligatorios antes de intentar agregar el productor.", "Error", JOptionPane.ERROR_MESSAGE);
     } else {
         int rut;
@@ -471,8 +498,12 @@ private String obtenerIdComunaSeleccionado() {
             return;
         }
 
+        // Formatear la fecha en el formato deseado (dd-MM-yyyy)
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String fechaNacimiento = dateFormat.format(fechaNacimientoDate);
+
         // Llama al método del servicio web para agregar el productor
-       boolean registrado = servicioWeb.agregarProductor(rut, dv, nombre, apellidop, apellidom, fechaNacimiento, direccion, correo, contrasena, idComunaleccionada);
+        boolean registrado = servicioWeb.agregarProductor(rut, dv, nombre, apellidop, apellidom, fechaNacimiento, direccion, correo, contrasena, idComunaleccionada);
 
         if (registrado) {
             // El productor se registró correctamente
@@ -486,57 +517,61 @@ private String obtenerIdComunaSeleccionado() {
         }
     }
     cargar_productores();
+
                                               
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
   //  String idComunaleccionada = obtenerIdComunaSeleccionado(); 
-    String idComunaleccionada = obtenerIdComunaSeleccionado();
-    String rutString = txtRut.getText();
-    String nombre = txtNombre.getText();
-    String apellidop = txtApellidop.getText();
-    String apellidom = txtApellidom.getText();
-    String fechaNacimiento = txtFecha.getText();
-    String direccion = txtDireccion.getText();
-    String correo = txtCorreo.getText();
-    String contrasena = new String(txtContra.getPassword());
-   // String comuna = txtComuna.getText();
-     // Obtener el valor de la comuna
-    
-    // Verificar si los campos obligatorios están llenos
-    if (rutString.isEmpty() || nombre.isEmpty() || apellidop.isEmpty() || apellidom.isEmpty() || 
-        fechaNacimiento.isEmpty() || direccion.isEmpty() || correo.isEmpty() || 
-        contrasena.isEmpty() || idComunaleccionada.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, llena todos los campos obligatorios antes de intentar modificar el productor.", "Error", JOptionPane.ERROR_MESSAGE);
-    } else {
-        try {
-            // Intentar convertir el RUT a un número entero
-            int rutabuscar = Integer.parseInt(rutString);
+String idComunaleccionada = obtenerIdComunaSeleccionado();
+String rutString = txtRut.getText();
+String nombre = txtNombre.getText();
+String apellidop = txtApellidop.getText();
+String apellidom = txtApellidom.getText();
 
-            // Llamar al método del servicio web para modificar el productor
-            boolean modificado = servicioWeb.modificarProductor(rutabuscar, nombre, apellidop, apellidom, fechaNacimiento, direccion, correo, contrasena, idComunaleccionada);
+// Obtener la fecha seleccionada del componente DateChooser
+Date fechaNacimientoDate = dtchFechaNacimiento.getDate();
 
-            if (modificado) {
-                // El productor se modificó correctamente
-                JOptionPane.showMessageDialog(this, "Productor modificado correctamente.");
-                // Puedes limpiar los campos después de modificar el productor si lo deseas
-                limpiarCampos();
-                // Actualizar la tabla después de modificar el productor
-            } else {
-                // Hubo un error al modificar el productor
-                JOptionPane.showMessageDialog(this, "Error al modificar el productor. Inténtalo de nuevo.");
-            }
-        } catch (NumberFormatException e) {
-            // Si no se puede convertir el RUT a un número, mostrar un mensaje de error
-            JOptionPane.showMessageDialog(this, "El RUT debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+String direccion = txtDireccion.getText();
+String correo = txtCorreo.getText();
+String contrasena = new String(txtContra.getPassword());
+// String comuna = txtComuna.getText();
+// Obtener el valor de la comuna
+
+// Verificar si los campos obligatorios están llenos
+if (rutString.isEmpty() || nombre.isEmpty() || apellidop.isEmpty() || apellidom.isEmpty() || 
+    fechaNacimientoDate == null || direccion.isEmpty() || correo.isEmpty() || 
+    contrasena.isEmpty() || idComunaleccionada.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Por favor, llena todos los campos obligatorios antes de intentar modificar el productor.", "Error", JOptionPane.ERROR_MESSAGE);
+} else {
+    try {
+        // Intentar convertir el RUT a un número entero
+        int rutabuscar = Integer.parseInt(rutString);
+
+        // Formatear la fecha en el formato deseado (dd-MM-yyyy)
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String fechaNacimiento = dateFormat.format(fechaNacimientoDate);
+
+        // Llamar al método del servicio web para modificar el productor
+        boolean modificado = servicioWeb.modificarProductor(rutabuscar, nombre, apellidop, apellidom, fechaNacimiento, direccion, correo, contrasena, idComunaleccionada);
+
+        if (modificado) {
+            // El productor se modificó correctamente
+            JOptionPane.showMessageDialog(this, "Productor modificado correctamente.");
+            // Puedes limpiar los campos después de modificar el productor si lo deseas
+            limpiarCampos();
+            // Actualizar la tabla después de modificar el productor
+        } else {
+            // Hubo un error al modificar el productor
+            JOptionPane.showMessageDialog(this, "Error al modificar el productor. Inténtalo de nuevo.");
         }
+    } catch (NumberFormatException e) {
+        // Si no se puede convertir el RUT a un número, mostrar un mensaje de error
+        JOptionPane.showMessageDialog(this, "El RUT debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
     }
-    cargar_productores();
+}
+cargar_productores();
     }//GEN-LAST:event_btnModificarActionPerformed
-
-    private void btnBuscarProductorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductorActionPerformed
-        
-    }//GEN-LAST:event_btnBuscarProductorActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
        String rutEliminar = txtRut.getText();
@@ -662,6 +697,64 @@ private String obtenerIdComunaSeleccionado() {
         ex.printStackTrace();
     }
     }//GEN-LAST:event_cmbComunaActionPerformed
+private void agregarKeyListenerRut() {
+    // Agrega un KeyListener al campo txtRut
+    txtRut.addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // Obtén el carácter ingresado
+            char caracter = e.getKeyChar();
+            
+            // Verifica si el carácter no es un número o la longitud es mayor a 8
+            if (!Character.isDigit(caracter) || txtRut.getText().length() >= 8) {
+                // Consumir el evento para evitar que se ingrese el carácter
+                e.consume();
+            }
+        }
+    });
+}
+    private void txtRutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRutActionPerformed
+        
+    }//GEN-LAST:event_txtRutActionPerformed
+private void agregaKeyListenerDV() {
+    // Agrega un KeyListener al campo txtDV
+    txtDV.addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // Obtén el carácter ingresado
+            char caracter = e.getKeyChar();
+
+            // Verifica si el carácter no es un número ni la letra "k" o la longitud es mayor a 1
+            if (!(Character.isDigit(caracter) || (caracter == 'k' || caracter == 'K')) || txtDV.getText().length() >= 1) {
+                // Consumir el evento para evitar que se ingrese el carácter
+                e.consume();
+            }
+        }
+    });
+}
+    private void txtDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDVActionPerformed
+ 
+    private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCorreoActionPerformed
+private void agregaValidacionNombre() {
+    txtNombre.addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            char c = e.getKeyChar();
+
+            // Verificar si el carácter es una letra o un espacio
+            if (!Character.isLetter(c) && c != ' ') {
+                e.consume(); // Consumir el evento, evitando que se ingrese el carácter no permitido
+            }
+        }
+    });
+}
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
 
     private void cargar_productores(){
     // Llama al método del servicio web para obtener la lista de productores desde la base de datos
@@ -678,8 +771,8 @@ private String obtenerIdComunaSeleccionado() {
 
         // Agrega los datos de los productores al modelo de datos de la tabla
         for (Productor productor : productores) {
-            Object[] rowData = {productor.getRut(), productor.getDv(), productor.getNombre(), productor.getApellidopat(), productor.getApellidomat(), 
-                                productor.getDireccion(), productor.getFechanacimiento(), productor.getCorreoelectronico(), productor.getContrasena(), 
+            Object[] rowData = {productor.getRut(),  productor.getNombre(), productor.getApellidopat(), productor.getApellidomat(), 
+                                productor.getDireccion(), productor.getFechanacimiento(), productor.getCorreoelectronico(), 
                                 productor.getComunaIdcomuna()};
             model.addRow(rowData);
         }
@@ -720,13 +813,13 @@ private String obtenerIdComunaSeleccionado() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnBuscarProductor;
     private javax.swing.JToggleButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> cmbComuna;
     private javax.swing.JComboBox<String> cmbPais;
     private javax.swing.JComboBox<String> cmbRegion;
+    private com.toedter.calendar.JDateChooser dtchFechaNacimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -738,10 +831,9 @@ private String obtenerIdComunaSeleccionado() {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tblProductor;
     private javax.swing.JTextField txtApellidom;
     private javax.swing.JTextField txtApellidop;
@@ -750,7 +842,6 @@ private String obtenerIdComunaSeleccionado() {
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtDV;
     private javax.swing.JTextField txtDireccion;
-    private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JLabel txtPais;
     private javax.swing.JLabel txtRegion;

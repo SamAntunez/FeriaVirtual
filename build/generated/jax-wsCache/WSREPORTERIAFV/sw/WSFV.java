@@ -39,39 +39,6 @@ public interface WSFV {
 
     /**
      * 
-     * @param arg0
-     * @return
-     *     returns java.util.List<sw.Reporte>
-     */
-    @WebMethod(operationName = "reportePedidosCancelados_2")
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "reportePedidosCancelados_2", targetNamespace = "http://SW/", className = "sw.ReportePedidosCancelados2")
-    @ResponseWrapper(localName = "reportePedidosCancelados_2Response", targetNamespace = "http://SW/", className = "sw.ReportePedidosCancelados2Response")
-    @Action(input = "http://SW/WSFV/reportePedidosCancelados_2Request", output = "http://SW/WSFV/reportePedidosCancelados_2Response")
-    public List<Reporte> reportePedidosCancelados2(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0);
-
-    /**
-     * 
-     * @param arg1
-     * @param arg0
-     * @return
-     *     returns java.util.List<sw.Reporte>
-     */
-    @WebMethod(operationName = "reportePedidosCancelados_1")
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "reportePedidosCancelados_1", targetNamespace = "http://SW/", className = "sw.ReportePedidosCancelados1")
-    @ResponseWrapper(localName = "reportePedidosCancelados_1Response", targetNamespace = "http://SW/", className = "sw.ReportePedidosCancelados1Response")
-    @Action(input = "http://SW/WSFV/reportePedidosCancelados_1Request", output = "http://SW/WSFV/reportePedidosCancelados_1Response")
-    public List<Reporte> reportePedidosCancelados1(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        String arg1);
-
-    /**
-     * 
      * @param arg1
      * @param arg0
      * @return
@@ -95,12 +62,12 @@ public interface WSFV {
      * @return
      *     returns java.util.List<sw.Reporte>
      */
-    @WebMethod(operationName = "reportePedidosCancelados_3")
+    @WebMethod(operationName = "reportePedidosOK_3")
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "reportePedidosCancelados_3", targetNamespace = "http://SW/", className = "sw.ReportePedidosCancelados3")
-    @ResponseWrapper(localName = "reportePedidosCancelados_3Response", targetNamespace = "http://SW/", className = "sw.ReportePedidosCancelados3Response")
-    @Action(input = "http://SW/WSFV/reportePedidosCancelados_3Request", output = "http://SW/WSFV/reportePedidosCancelados_3Response")
-    public List<Reporte> reportePedidosCancelados3(
+    @RequestWrapper(localName = "reportePedidosOK_3", targetNamespace = "http://SW/", className = "sw.ReportePedidosOK3")
+    @ResponseWrapper(localName = "reportePedidosOK_3Response", targetNamespace = "http://SW/", className = "sw.ReportePedidosOK3Response")
+    @Action(input = "http://SW/WSFV/reportePedidosOK_3Request", output = "http://SW/WSFV/reportePedidosOK_3Response")
+    public List<Reporte> reportePedidosOK3(
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0,
         @WebParam(name = "arg1", targetNamespace = "")
@@ -123,6 +90,24 @@ public interface WSFV {
 
     /**
      * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns java.util.List<sw.Reporte>
+     */
+    @WebMethod(operationName = "reportePedidosCancelados_1")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "reportePedidosCancelados_1", targetNamespace = "http://SW/", className = "sw.ReportePedidosCancelados1")
+    @ResponseWrapper(localName = "reportePedidosCancelados_1Response", targetNamespace = "http://SW/", className = "sw.ReportePedidosCancelados1Response")
+    @Action(input = "http://SW/WSFV/reportePedidosCancelados_1Request", output = "http://SW/WSFV/reportePedidosCancelados_1Response")
+    public List<Reporte> reportePedidosCancelados1(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        String arg1);
+
+    /**
+     * 
      * @param arg0
      * @return
      *     returns java.util.List<sw.Reporte>
@@ -138,17 +123,32 @@ public interface WSFV {
 
     /**
      * 
+     * @param arg0
+     * @return
+     *     returns java.util.List<sw.Reporte>
+     */
+    @WebMethod(operationName = "reportePedidosCancelados_2")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "reportePedidosCancelados_2", targetNamespace = "http://SW/", className = "sw.ReportePedidosCancelados2")
+    @ResponseWrapper(localName = "reportePedidosCancelados_2Response", targetNamespace = "http://SW/", className = "sw.ReportePedidosCancelados2Response")
+    @Action(input = "http://SW/WSFV/reportePedidosCancelados_2Request", output = "http://SW/WSFV/reportePedidosCancelados_2Response")
+    public List<Reporte> reportePedidosCancelados2(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0);
+
+    /**
+     * 
      * @param arg1
      * @param arg0
      * @return
      *     returns java.util.List<sw.Reporte>
      */
-    @WebMethod(operationName = "reportePedidosOK_3")
+    @WebMethod(operationName = "reportePedidosCancelados_3")
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "reportePedidosOK_3", targetNamespace = "http://SW/", className = "sw.ReportePedidosOK3")
-    @ResponseWrapper(localName = "reportePedidosOK_3Response", targetNamespace = "http://SW/", className = "sw.ReportePedidosOK3Response")
-    @Action(input = "http://SW/WSFV/reportePedidosOK_3Request", output = "http://SW/WSFV/reportePedidosOK_3Response")
-    public List<Reporte> reportePedidosOK3(
+    @RequestWrapper(localName = "reportePedidosCancelados_3", targetNamespace = "http://SW/", className = "sw.ReportePedidosCancelados3")
+    @ResponseWrapper(localName = "reportePedidosCancelados_3Response", targetNamespace = "http://SW/", className = "sw.ReportePedidosCancelados3Response")
+    @Action(input = "http://SW/WSFV/reportePedidosCancelados_3Request", output = "http://SW/WSFV/reportePedidosCancelados_3Response")
+    public List<Reporte> reportePedidosCancelados3(
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0,
         @WebParam(name = "arg1", targetNamespace = "")
