@@ -10,41 +10,11 @@
 <message name="reporteDetallePedidosResponse">
 <part name="parameters" element="tns:reporteDetallePedidosResponse"/>
 </message>
-<message name="reportePedidosCancelados_2">
-<part name="parameters" element="tns:reportePedidosCancelados_2"/>
-</message>
-<message name="reportePedidosCancelados_2Response">
-<part name="parameters" element="tns:reportePedidosCancelados_2Response"/>
-</message>
-<message name="reportePedidosCancelados_1">
-<part name="parameters" element="tns:reportePedidosCancelados_1"/>
-</message>
-<message name="reportePedidosCancelados_1Response">
-<part name="parameters" element="tns:reportePedidosCancelados_1Response"/>
-</message>
 <message name="reportePedidosOK_1">
 <part name="parameters" element="tns:reportePedidosOK_1"/>
 </message>
 <message name="reportePedidosOK_1Response">
 <part name="parameters" element="tns:reportePedidosOK_1Response"/>
-</message>
-<message name="reportePedidosCancelados_3">
-<part name="parameters" element="tns:reportePedidosCancelados_3"/>
-</message>
-<message name="reportePedidosCancelados_3Response">
-<part name="parameters" element="tns:reportePedidosCancelados_3Response"/>
-</message>
-<message name="reporteDetallePedidosxAnio">
-<part name="parameters" element="tns:reporteDetallePedidosxAnio"/>
-</message>
-<message name="reporteDetallePedidosxAnioResponse">
-<part name="parameters" element="tns:reporteDetallePedidosxAnioResponse"/>
-</message>
-<message name="reportePedidosOK_2">
-<part name="parameters" element="tns:reportePedidosOK_2"/>
-</message>
-<message name="reportePedidosOK_2Response">
-<part name="parameters" element="tns:reportePedidosOK_2Response"/>
 </message>
 <message name="reportePedidosOK_3">
 <part name="parameters" element="tns:reportePedidosOK_3"/>
@@ -52,38 +22,68 @@
 <message name="reportePedidosOK_3Response">
 <part name="parameters" element="tns:reportePedidosOK_3Response"/>
 </message>
+<message name="reporteDetallePedidosxAnio">
+<part name="parameters" element="tns:reporteDetallePedidosxAnio"/>
+</message>
+<message name="reporteDetallePedidosxAnioResponse">
+<part name="parameters" element="tns:reporteDetallePedidosxAnioResponse"/>
+</message>
+<message name="reportePedidosCancelados_1">
+<part name="parameters" element="tns:reportePedidosCancelados_1"/>
+</message>
+<message name="reportePedidosCancelados_1Response">
+<part name="parameters" element="tns:reportePedidosCancelados_1Response"/>
+</message>
+<message name="reportePedidosOK_2">
+<part name="parameters" element="tns:reportePedidosOK_2"/>
+</message>
+<message name="reportePedidosOK_2Response">
+<part name="parameters" element="tns:reportePedidosOK_2Response"/>
+</message>
+<message name="reportePedidosCancelados_2">
+<part name="parameters" element="tns:reportePedidosCancelados_2"/>
+</message>
+<message name="reportePedidosCancelados_2Response">
+<part name="parameters" element="tns:reportePedidosCancelados_2Response"/>
+</message>
+<message name="reportePedidosCancelados_3">
+<part name="parameters" element="tns:reportePedidosCancelados_3"/>
+</message>
+<message name="reportePedidosCancelados_3Response">
+<part name="parameters" element="tns:reportePedidosCancelados_3Response"/>
+</message>
 <portType name="WSFV">
 <operation name="reporteDetallePedidos">
 <input wsam:Action="http://SW/WSFV/reporteDetallePedidosRequest" message="tns:reporteDetallePedidos"/>
 <output wsam:Action="http://SW/WSFV/reporteDetallePedidosResponse" message="tns:reporteDetallePedidosResponse"/>
 </operation>
-<operation name="reportePedidosCancelados_2">
-<input wsam:Action="http://SW/WSFV/reportePedidosCancelados_2Request" message="tns:reportePedidosCancelados_2"/>
-<output wsam:Action="http://SW/WSFV/reportePedidosCancelados_2Response" message="tns:reportePedidosCancelados_2Response"/>
-</operation>
-<operation name="reportePedidosCancelados_1">
-<input wsam:Action="http://SW/WSFV/reportePedidosCancelados_1Request" message="tns:reportePedidosCancelados_1"/>
-<output wsam:Action="http://SW/WSFV/reportePedidosCancelados_1Response" message="tns:reportePedidosCancelados_1Response"/>
-</operation>
 <operation name="reportePedidosOK_1">
 <input wsam:Action="http://SW/WSFV/reportePedidosOK_1Request" message="tns:reportePedidosOK_1"/>
 <output wsam:Action="http://SW/WSFV/reportePedidosOK_1Response" message="tns:reportePedidosOK_1Response"/>
 </operation>
-<operation name="reportePedidosCancelados_3">
-<input wsam:Action="http://SW/WSFV/reportePedidosCancelados_3Request" message="tns:reportePedidosCancelados_3"/>
-<output wsam:Action="http://SW/WSFV/reportePedidosCancelados_3Response" message="tns:reportePedidosCancelados_3Response"/>
+<operation name="reportePedidosOK_3">
+<input wsam:Action="http://SW/WSFV/reportePedidosOK_3Request" message="tns:reportePedidosOK_3"/>
+<output wsam:Action="http://SW/WSFV/reportePedidosOK_3Response" message="tns:reportePedidosOK_3Response"/>
 </operation>
 <operation name="reporteDetallePedidosxAnio">
 <input wsam:Action="http://SW/WSFV/reporteDetallePedidosxAnioRequest" message="tns:reporteDetallePedidosxAnio"/>
 <output wsam:Action="http://SW/WSFV/reporteDetallePedidosxAnioResponse" message="tns:reporteDetallePedidosxAnioResponse"/>
 </operation>
+<operation name="reportePedidosCancelados_1">
+<input wsam:Action="http://SW/WSFV/reportePedidosCancelados_1Request" message="tns:reportePedidosCancelados_1"/>
+<output wsam:Action="http://SW/WSFV/reportePedidosCancelados_1Response" message="tns:reportePedidosCancelados_1Response"/>
+</operation>
 <operation name="reportePedidosOK_2">
 <input wsam:Action="http://SW/WSFV/reportePedidosOK_2Request" message="tns:reportePedidosOK_2"/>
 <output wsam:Action="http://SW/WSFV/reportePedidosOK_2Response" message="tns:reportePedidosOK_2Response"/>
 </operation>
-<operation name="reportePedidosOK_3">
-<input wsam:Action="http://SW/WSFV/reportePedidosOK_3Request" message="tns:reportePedidosOK_3"/>
-<output wsam:Action="http://SW/WSFV/reportePedidosOK_3Response" message="tns:reportePedidosOK_3Response"/>
+<operation name="reportePedidosCancelados_2">
+<input wsam:Action="http://SW/WSFV/reportePedidosCancelados_2Request" message="tns:reportePedidosCancelados_2"/>
+<output wsam:Action="http://SW/WSFV/reportePedidosCancelados_2Response" message="tns:reportePedidosCancelados_2Response"/>
+</operation>
+<operation name="reportePedidosCancelados_3">
+<input wsam:Action="http://SW/WSFV/reportePedidosCancelados_3Request" message="tns:reportePedidosCancelados_3"/>
+<output wsam:Action="http://SW/WSFV/reportePedidosCancelados_3Response" message="tns:reportePedidosCancelados_3Response"/>
 </operation>
 </portType>
 <binding name="WSFVPortBinding" type="tns:WSFV">
@@ -97,24 +97,6 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="reportePedidosCancelados_2">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="reportePedidosCancelados_1">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="reportePedidosOK_1">
 <soap:operation soapAction=""/>
 <input>
@@ -124,7 +106,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="reportePedidosCancelados_3">
+<operation name="reportePedidosOK_3">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -142,6 +124,15 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="reportePedidosCancelados_1">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="reportePedidosOK_2">
 <soap:operation soapAction=""/>
 <input>
@@ -151,7 +142,16 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="reportePedidosOK_3">
+<operation name="reportePedidosCancelados_2">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="reportePedidosCancelados_3">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

@@ -49,8 +49,8 @@
             consultor = new MainConsultor(); 
             setLocationRelativeTo(null);
             //[653, 695] -133,+30
-            setSize(520, 725);
-            setResizable(false);
+           // setSize(520, 725);
+            //setResizable(false);
 
             if (this instanceof Logint) {
                 // Cambia el comportamiento de cierre solo para Logint
@@ -70,6 +70,7 @@
     private void initComponents() {
 
         jFrame1 = new javax.swing.JFrame();
+        jInternalFrame1 = new javax.swing.JInternalFrame();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -93,6 +94,19 @@
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
+        jInternalFrame1.setVisible(true);
+
+        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
+        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
+        jInternalFrame1Layout.setHorizontalGroup(
+            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jInternalFrame1Layout.setVerticalGroup(
+            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
         setIconImages(getIconImages());
@@ -105,7 +119,7 @@
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 147, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,26 +148,23 @@
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Downloads\\logo-removebg-preview (1).png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logo-removebg-preview (1).png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(171, 171, 171)
                         .addComponent(jLabel1))
@@ -163,7 +174,7 @@
                             .addComponent(txtContra)
                             .addComponent(txtUsuario)
                             .addComponent(btnIngresar, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,11 +183,11 @@
                 .addComponent(jLabel3)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)))
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
@@ -185,16 +196,14 @@
                 .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,49 +218,49 @@
     private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
 
     }//GEN-LAST:event_txtUsuarioActionPerformed
-  private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {
-        // Código para cerrar la ventana, pero NO deberías cerrar la aplicación aquí
-        this.dispose();
-    }
 
     private void txtContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraActionPerformed
 
     }//GEN-LAST:event_txtContraActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-  System.out.println("Método btnIngresarActionPerformed ejecutado.");
-    try {
-        String nombreUsuario = txtUsuario.getText().trim();
-        String contrasena = new String(txtContra.getPassword()); // Obtiene la contraseña como cadena de caracteres
+        System.out.println("Método btnIngresarActionPerformed ejecutado.");
+        try {
+            String nombreUsuario = txtUsuario.getText().trim();
+            String contrasena = new String(txtContra.getPassword()); // Obtiene la contraseña como cadena de caracteres
 
-        // Llama al método listarlogin2 del servicio web para autenticar al usuario
-        Login usuario = servicioWeb.listarlogin2(nombreUsuario, contrasena);
+            // Llama al método listarlogin2 del servicio web para autenticar al usuario
+            Login usuario = servicioWeb.listarlogin2(nombreUsuario, contrasena);
 
-        if (usuario != null) {
-            // Si el usuario se autentica correctamente, verifica el tipo de usuario
-            if ("administrador".equalsIgnoreCase(usuario.getTipousuario())) {
-                // Redirige al usuario administrador a la ventana Principal
-                Principal principalWindow = new Principal();
-                principalWindow.setVisible(true);
-                this.dispose(); // Cierra la ventana de login
-            } else if ("consultor".equalsIgnoreCase(usuario.getTipousuario())) {
-                // Redirige al usuario consultor a la ventana MainConsultor
-                MainConsultor consultorWindow = new MainConsultor();
-                consultorWindow.setVisible(true);
-                this.dispose(); // Cierra la ventana de login
+            if (usuario != null) {
+                // Si el usuario se autentica correctamente, verifica el tipo de usuario
+                if ("administrador".equalsIgnoreCase(usuario.getTipousuario())) {
+                    // Redirige al usuario administrador a la ventana Principal
+                    Principal principalWindow = new Principal();
+                    principalWindow.setVisible(true);
+                    this.dispose(); // Cierra la ventana de login
+                } else if ("consultor".equalsIgnoreCase(usuario.getTipousuario())) {
+                    // Redirige al usuario consultor a la ventana MainConsultor
+                    MainConsultor consultorWindow = new MainConsultor();
+                    consultorWindow.setVisible(true);
+                    this.dispose(); // Cierra la ventana de login
+                } else {
+                    // Si el tipo de usuario no es reconocido, muestra un mensaje de error
+                    JOptionPane.showMessageDialog(this, "Credenciales incorrectas", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
-                // Si el tipo de usuario no es reconocido, muestra un mensaje de error
-                JOptionPane.showMessageDialog(this, "Credenciales incorrectas", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+                // Si las credenciales son incorrectas o el usuario no existe, muestra un mensaje de error
+                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            // Si las credenciales son incorrectas o el usuario no existe, muestra un mensaje de error
-            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
     }//GEN-LAST:event_btnIngresarActionPerformed
+  private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {
+        // Código para cerrar la ventana, pero NO deberías cerrar la aplicación aquí
+        this.dispose();
+    }
 private boolean esAdministrador(String nombreUsuario) {
     Login usuario = servicioWeb.listarlogin2(nombreUsuario, "contraseña"); // Reemplaza "contraseña" con la contraseña real del usuario
     return usuario != null && "administrador".equalsIgnoreCase(usuario.getTipousuario());
@@ -270,11 +279,13 @@ private boolean esConsultor(String nombreUsuario) {
             }
         });
     }
+
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
     private javax.swing.JFrame jFrame1;
+    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

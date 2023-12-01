@@ -1,5 +1,5 @@
-
 package Interfaz;
+
 import com.itextpdf.text.Font; 
 import org.jdatepicker.JDatePicker;
 import javax.swing.text.AttributeSet;
@@ -56,6 +56,11 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.FileWriter;
 
 public class ReportePDF extends javax.swing.JFrame {
     
@@ -67,7 +72,16 @@ public class ReportePDF extends javax.swing.JFrame {
     
     
     public ReportePDF() {
+        
         initComponents();
+        
+       // btnCSV.setEnabled(false);
+        agregarKeyListenerAno() ;
+        agregarKeyListenerAnoo();
+        agregarKeyListenerFechaInicio();
+        agregarKeyListenerFechaTermino();
+        TextPrompt prueba = new TextPrompt("dd_MM-yyyy", txtFechaInicio);
+        TextPrompt prueba2 = new TextPrompt("dd_MM-yyyy", txtFechaTermino);
         
         
         
@@ -317,7 +331,7 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
                 // Este código se ejecutará cuando la selección cambie
                 int selectedRow = tblReporte2.getSelectedRow();
             if (selectedRow != -1) {
-                // Lógica para tratar con la fila seleccionada
+                // Lógica para tratar con2 la fila seleccionada
                 // ...
                      }
                 }
@@ -333,7 +347,8 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
     //ancho,alto
     setSize(980, 835);
     setResizable(false);
-    cargar_detalle_reporte();
+    //cargar_detalle_reporte();
+     actualizarTabla();
     }
     
     //Solo numeros
@@ -382,7 +397,7 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         rdbVenta = new javax.swing.JRadioButton();
         rdbVentaRechazada = new javax.swing.JRadioButton();
         btnImprimir = new javax.swing.JButton();
-        btnExcel = new javax.swing.JButton();
+        btnCSV = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -395,13 +410,21 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         txtFechaTermino = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtAno2 = new javax.swing.JTextField();
-        chlSeleccionarTodo = new javax.swing.JCheckBox();
+        cbxTodo = new javax.swing.JCheckBox();
+        cbxTodo2 = new javax.swing.JCheckBox();
+        btnCSV2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
         jLabel3.setText("Año");
+
+        txtAno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAnoActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Año inicio");
 
@@ -421,7 +444,7 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         jScrollPane1.setViewportView(tblReporte);
 
         btnPDF.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        btnPDF.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Downloads\\PDF.png")); // NOI18N
+        btnPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/PDF.png"))); // NOI18N
         btnPDF.setText("Generar PDF");
         btnPDF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -429,7 +452,7 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
             }
         });
 
-        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Documents\\NetBeansProjects\\ClienteJAVA\\img\\logo__1_-removebg-preview.png")); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logologo.png"))); // NOI18N
 
         jPanel2.setBackground(new java.awt.Color(204, 255, 204));
 
@@ -470,15 +493,16 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
                         .addGap(396, 396, 396))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(rdbVenta)
-                        .addGap(31, 31, 31)
+                        .addGap(50, 50, 50)
                         .addComponent(rdbVentaRechazada)
-                        .addGap(115, 115, 115))))
+                        .addGap(96, 96, 96))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
                 .addComponent(jLabel9)
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -487,6 +511,7 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         );
 
         btnImprimir.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/impresora.png"))); // NOI18N
         btnImprimir.setText("Imprimir");
         btnImprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -494,9 +519,14 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
             }
         });
 
-        btnExcel.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        btnExcel.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Downloads\\excel.png")); // NOI18N
-        btnExcel.setText("Generar Excel");
+        btnCSV.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnCSV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel.png"))); // NOI18N
+        btnCSV.setText("Generar CSV");
+        btnCSV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCSVActionPerformed(evt);
+            }
+        });
 
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -522,7 +552,7 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         jScrollPane2.setViewportView(tblReporte2);
 
         btnPDF2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        btnPDF2.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Downloads\\PDF.png")); // NOI18N
+        btnPDF2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/PDF.png"))); // NOI18N
         btnPDF2.setText("Generar PDF");
         btnPDF2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -531,6 +561,7 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         });
 
         btnImprimir2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnImprimir2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/impresora.png"))); // NOI18N
         btnImprimir2.setText("Imprimir");
         btnImprimir2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -540,12 +571,42 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
 
         jLabel1.setText("Fecha inicio");
 
+        txtFechaInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFechaInicioActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("Fecha termino");
+
+        txtFechaTermino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFechaTerminoActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Año");
 
-        chlSeleccionarTodo.setBackground(new java.awt.Color(204, 255, 204));
-        chlSeleccionarTodo.setText("Seleccionar todo");
+        txtAno2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAno2ActionPerformed(evt);
+            }
+        });
+
+        cbxTodo.setBackground(new java.awt.Color(204, 255, 204));
+        cbxTodo.setText("Seleccionar todo");
+
+        cbxTodo2.setBackground(new java.awt.Color(204, 255, 204));
+        cbxTodo2.setText("Seleccionar todo");
+
+        btnCSV2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnCSV2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel.png"))); // NOI18N
+        btnCSV2.setText("Generar CSV");
+        btnCSV2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCSV2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -555,80 +616,75 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7)
-                        .addGap(82, 82, 82))))
+                        .addGap(74, 74, 74))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(122, 122, 122)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 685, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnPDF2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnImprimir2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(286, 286, 286)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGap(181, 181, 181)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(75, 75, 75)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel6)
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtAnoInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtAno2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(txtAnoInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(98, 98, 98)
-                                                .addComponent(jLabel5))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jLabel2)))
+                                        .addGap(62, 62, 62)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtAnoTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(txtFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtAno2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(chlSeleccionarTodo)
-                                        .addGap(43, 43, 43))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGap(100, 100, 100)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(cbxTodo2))))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 658, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnPDF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnExcel)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnPDF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnCSV2)))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(187, 187, 187)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cbxTodo))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnPDF2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCSV)
+                            .addComponent(btnImprimir2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 38, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel7)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -636,7 +692,7 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtAnoInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
@@ -650,32 +706,33 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
                             .addComponent(txtAno2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(27, 27, 27)
                         .addComponent(btnPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCSV2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(13, 13, 13)
                         .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(chlSeleccionarTodo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(19, 19, 19)
+                        .addComponent(cbxTodo2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(cbxTodo))
+                .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
                         .addComponent(btnPDF2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCSV, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnImprimir2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(10, 10, 10)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(28, 28, 28)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -686,9 +743,7 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -697,7 +752,7 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
     ((AbstractDocument) textField.getDocument()).setDocumentFilter(new NumberOnlyFilter());
 }
     private void actualizarTabla() {
-    try {
+      try {
         String arg0 = txtAno.getText(); // Obtén el texto actual del txtAno
         List<Reporte> report;
 
@@ -716,18 +771,36 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         }
 
         tblReporte.setModel(model);
+
+        // Permitir selección múltiple
+        tblReporte.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+        // Agregar listener al checkbox
+        cbxTodo.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    // Checkbox seleccionado, seleccionar todas las filas
+                    tblReporte.selectAll();
+                } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+                    // Checkbox desmarcado, deseleccionar todas las filas
+                    tblReporte.clearSelection();
+                }
+            }
+        });
     } catch (Exception ex) {
         // Manejar la excepción aquí
         JOptionPane.showMessageDialog(null, "Error al cargar los productos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         ex.printStackTrace(); // O muestra un mensaje de error en lugar de imprimir la traza
     }
+   
 }
         
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
     this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
-     private void actualizarPorAnoCancelados() {
-    try {
+    private void actualizarPorAnoCancelados() { //CHECKBOX OK
+       try {
         // Obtener el año desde txtAno2
         String ano = txtAno2.getText();
 
@@ -752,13 +825,25 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         }
 
         tblReporte2.setModel(model);
+
+        // Agregar listener al checkbox cbxTodo2
+        cbxTodo2.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                // Checkbox seleccionado, seleccionar todas las filas
+                tblReporte2.selectAll();
+            } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+                // Checkbox desmarcado, deseleccionar todas las filas
+                tblReporte2.clearSelection();
+            }
+        });
+
     } catch (Exception ex) {
         // Manejar la excepción aquí
         JOptionPane.showMessageDialog(null, "Error al cargar los productos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         ex.printStackTrace(); // O muestra un mensaje de error en lugar de imprimir la traza
     }
 }
-     private void manejarActualizaciones() {
+    private void manejarActualizaciones() {
     if (rdbVenta.isSelected()) {
         actualizarTablaInicioTermino();
         actualizarTablaAno();
@@ -771,8 +856,8 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         limpiarTabla(tblReporte2);
     }
 }
-   private void actualizarPorAno() {
-    try {
+    private void actualizarPorAno() { //checkbox ok
+      try {
         // Obtener el año desde txtAno2
         String ano = txtAno2.getText();
 
@@ -797,14 +882,26 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         }
 
         tblReporte2.setModel(model);
+
+        // Agregar listener al checkbox cbxTodo2
+        cbxTodo2.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                // Checkbox seleccionado, seleccionar todas las filas
+                tblReporte2.selectAll();
+            } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+                // Checkbox desmarcado, deseleccionar todas las filas
+                tblReporte2.clearSelection();
+            }
+        });
+
     } catch (Exception ex) {
         // Manejar la excepción aquí
         JOptionPane.showMessageDialog(null, "Error al cargar los productos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         ex.printStackTrace(); // O muestra un mensaje de error en lugar de imprimir la traza
     }
-}
-        private void actualizarTablaAno(){
-        try {
+} //ok
+    private void actualizarTablaAno(){ ///checklisto ((ok
+         try {
         // Verificar si rdbVenta está seleccionado
         if (rdbVenta.isSelected()) {
             // Obtener años
@@ -832,6 +929,18 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
             }
 
             tblReporte2.setModel(model);
+
+            // Agregar listener al checkbox cbxTodo2
+            cbxTodo2.addItemListener(e -> {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    // Checkbox seleccionado, seleccionar todas las filas
+                    tblReporte2.selectAll();
+                } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+                    // Checkbox desmarcado, deseleccionar todas las filas
+                    tblReporte2.clearSelection();
+                }
+            });
+
         } else {
             // Si rdbVenta no está seleccionado, limpiar la tabla
             limpiarTabla(tblReporte2);
@@ -841,9 +950,9 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         JOptionPane.showMessageDialog(null, "Error al cargar los productos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         ex.printStackTrace(); // O muestra un mensaje de error en lugar de imprimir la traza
     }
-    }
-    private void actualizarTablaAno2(){
-         try {
+    } // ok
+    private void actualizarTablaAno2(){ //checkboxlisto
+     try {
         // Verificar si rdbVentaRechazada está seleccionado
         if (rdbVentaRechazada.isSelected()) {
             // Obtener años
@@ -870,6 +979,18 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
             }
 
             tblReporte2.setModel(model);
+
+            // Agregar listener al checkbox cbxTodo2
+            cbxTodo2.addItemListener(e -> {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    // Checkbox seleccionado, seleccionar todas las filas
+                    tblReporte2.selectAll();
+                } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+                    // Checkbox desmarcado, deseleccionar todas las filas
+                    tblReporte2.clearSelection();
+                }
+            });
+
         } else {
             // Si rdbVentaRechazada no está seleccionado, limpiar la tabla
             limpiarTabla(tblReporte2);
@@ -879,54 +1000,66 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         JOptionPane.showMessageDialog(null, "Error al cargar los productos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         ex.printStackTrace(); // O muestra un mensaje de error en lugar de imprimir la traza
     }
-    }
+    } //ok
     private void actualizarTablaInicioTermino2(){
-        try {
-    // Verificar si rdbVentaRechazada está seleccionado
-     if (rdbVentaRechazada.isSelected()) {
-        // Obtener fechas
-        String fechaInicio = txtFechaInicio.getText();
-        String fechaTermino = txtFechaTermino.getText();
-
-        List<Reporte> reportes;
-
-        if (fechaInicio.isEmpty() || fechaTermino.isEmpty()) {
-            // Si alguna de las fechas está vacía, carga todos los reportes cancelados
-            reportes = servicioWeb3.reportePedidosCancelados1(fechaInicio, fechaTermino);
-        } else {
-            // Si ambas fechas tienen valores, carga los reportes cancelados con esas fechas
-            reportes = servicioWeb3.reportePedidosCancelados1(fechaInicio, fechaTermino);
-        }
-
-        // Actualizar la tabla con los nuevos datos
-        DefaultTableModel model = new DefaultTableModel();
-        model.setColumnIdentifiers(new Object[]{"ID cliente", "ID pedido", "Peso total","Comision Maipo","Estado","Tipo seguro","Total Pedido","Total transportista","IVA","Total Final"});
-
-        for (Reporte reporte : reportes) {
-            model.addRow(new Object[]{reporte.getClienteIdCliente(), reporte.getIdpedido(), reporte.getPesototalpedido(),reporte.getComisionmaipogrande(),
-                                      reporte.getEstadopedidoIdestado(),reporte.getTiposeguroIdtiposeguro(),reporte.getTotalpedido(),reporte.getTotaltransporte(),
-                                      reporte.getIva(),reporte.getTotalfinal()});
-        }
-
-        tblReporte2.setModel(model);
-    } else {
-        // Si rdbVentaRechazada no está seleccionado, limpiar la tabla
-        limpiarTabla(tblReporte2);
-    }
-} catch (Exception ex) {
-    // Manejar la excepción aquí
-    JOptionPane.showMessageDialog(null, "Error al cargar los productos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    ex.printStackTrace(); // O muestra un mensaje de error en lugar de imprimir la traza
-}
-    }
-    private void actualizarTablaInicioTermino() {
     try {
-        // Verificar si rdbVenta está seleccionado
-        if (rdbVenta.isSelected()) {    
+        // Verificar si rdbVentaRechazada está seleccionado
+        if (rdbVentaRechazada.isSelected()) {
             // Obtener fechas
             String fechaInicio = txtFechaInicio.getText();
             String fechaTermino = txtFechaTermino.getText();
-            
+
+            List<Reporte> reportes;
+
+            if (fechaInicio.isEmpty() || fechaTermino.isEmpty()) {
+                // Si alguna de las fechas está vacía, carga todos los reportes cancelados
+                reportes = servicioWeb3.reportePedidosCancelados1(fechaInicio, fechaTermino);
+            } else {
+                // Si ambas fechas tienen valores, carga los reportes cancelados con esas fechas
+                reportes = servicioWeb3.reportePedidosCancelados1(fechaInicio, fechaTermino);
+            }
+
+            // Actualizar la tabla con los nuevos datos
+            DefaultTableModel model = new DefaultTableModel();
+            model.setColumnIdentifiers(new Object[]{"ID cliente", "ID pedido", "Peso total","Comision Maipo","Estado","Tipo seguro","Total Pedido","Total transportista","IVA","Total Final"});
+
+            for (Reporte reporte : reportes) {
+                model.addRow(new Object[]{reporte.getClienteIdCliente(), reporte.getIdpedido(), reporte.getPesototalpedido(),reporte.getComisionmaipogrande(),
+                                          reporte.getEstadopedidoIdestado(),reporte.getTiposeguroIdtiposeguro(),reporte.getTotalpedido(),reporte.getTotaltransporte(),
+                                          reporte.getIva(),reporte.getTotalfinal()});
+            }
+
+            tblReporte2.setModel(model);
+
+            // Agregar listener al checkbox cbxTodo2
+            cbxTodo2.addItemListener(e -> {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    // Checkbox seleccionado, seleccionar todas las filas
+                    tblReporte2.selectAll();
+                } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+                    // Checkbox desmarcado, deseleccionar todas las filas
+                    tblReporte2.clearSelection();
+                }
+            });
+
+        } else {
+            // Si rdbVentaRechazada no está seleccionado, limpiar la tabla
+            limpiarTabla(tblReporte2);
+        }
+    } catch (Exception ex) {
+        // Manejar la excepción aquí
+        JOptionPane.showMessageDialog(null, "Error al cargar los productos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace(); // O muestra un mensaje de error en lugar de imprimir la traza
+    }
+    } //ok
+    private void actualizarTablaInicioTermino() {
+     try {
+        // Verificar si rdbVenta está seleccionado
+        if (rdbVenta.isSelected()) {
+            // Obtener fechas
+            String fechaInicio = txtFechaInicio.getText();
+            String fechaTermino = txtFechaTermino.getText();
+
             System.out.println("Fecha Inicio: " + fechaInicio);
             System.out.println("Fecha Termino: " + fechaTermino);
 
@@ -951,6 +1084,18 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
             }
 
             tblReporte2.setModel(model);
+
+            // Agregar listener al checkbox cbxTodo2
+            cbxTodo2.addItemListener(e -> {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    // Checkbox seleccionado, seleccionar todas las filas
+                    tblReporte2.selectAll();
+                } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+                    // Checkbox desmarcado, deseleccionar todas las filas
+                    tblReporte2.clearSelection();
+                }
+            });
+
         } else {
             // Si rdbVenta no está seleccionado, limpiar la tabla
             limpiarTabla(tblReporte2);
@@ -963,7 +1108,7 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
     }   
     
     private void rdbVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbVentaActionPerformed
-   if (rdbVenta.isSelected()) {
+    if (rdbVenta.isSelected()) {
         // Actualizar la tabla por inicio/termino
         actualizarTablaInicioTermino();
 
@@ -982,7 +1127,7 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         limpiarTabla(tblReporte2);
     }
     }//GEN-LAST:event_rdbVentaActionPerformed
-  private void limpiarTabla(JTable tabla) {
+    private void limpiarTabla(JTable tabla) {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
         model.setRowCount(0);
     }
@@ -995,23 +1140,14 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         }
     }
     private void btnPDF2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPDF2ActionPerformed
-   // Obtener la fila seleccionada en la tabla
-    int selectedRow = tblReporte.getSelectedRow();
+   int[] selectedRows = tblReporte.getSelectedRows();
+    String pdfFileName = null; // Declarar pdfFileName fuera del bloque try
 
-    // Verificar si hay una fila seleccionada
-    if (selectedRow != -1) {
-        // Obtener los datos de la fila seleccionada
-        String pdfFileName;
-        String[] columnNames;
-        Object[] rowData;
-
-        // Acciones específicas para el reporte de detalle de pedidos
-        pdfFileName = "Informe_Detalle_Pedido_" + tblReporte.getValueAt(selectedRow, 0) + ".pdf";
-        columnNames = new String[]{"Nombre producto", "Calibre", "Cantidad total"};
-        rowData = new Object[]{tblReporte.getValueAt(selectedRow, 0), tblReporte.getValueAt(selectedRow, 1), tblReporte.getValueAt(selectedRow, 2)};
-
+    // Verificar si hay filas seleccionadas
+    if (selectedRows.length > 0) {
         // Crear un documento PDF
         Document document = new Document();
+
         try {
             // Crear un objeto JFileChooser
             JFileChooser fileChooser = new JFileChooser();
@@ -1035,68 +1171,77 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
                 PdfWriter.getInstance(document, new FileOutputStream(pdfFileName));
                 document.open();
 
-                // Agregar título y imagen en la misma línea
-                Paragraph titleAndImage = new Paragraph();
-                int titleOffset = -20; // Ajusta este valor según sea necesario para mover a la izquierda
+                // Iterar sobre las filas seleccionadas
+                for (int selectedRow : selectedRows) {
+                    // Obtener los datos de la fila seleccionada
+                    String[] columnNames = new String[]{"Nombre producto", "Calibre", "Cantidad total"};
+                    Object[] rowData = new Object[]{tblReporte.getValueAt(selectedRow, 0), tblReporte.getValueAt(selectedRow, 1), tblReporte.getValueAt(selectedRow, 2)};
 
-                // Agregar espacios al principio del título para desplazarlo
-                for (int i = 0; i < Math.abs(titleOffset); i++) {
-                    titleAndImage.add(new Chunk(" ", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));
-                }
+                    // Agregar título e imagen en la misma línea
+                    Paragraph titleAndImage = new Paragraph();
+                    int titleOffset = -20; // Ajusta este valor según sea necesario para mover a la izquierda
 
-                titleAndImage.add(new Phrase("Departamento de consultorias", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));
+                    // Agregar espacios al principio del título para desplazarlo
+                    for (int i = 0; i < Math.abs(titleOffset); i++) {
+                        titleAndImage.add(new Chunk(" ", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));
+                    }
 
-                String imagePath = "src/Imagenes/logopdf.png"; // Ruta relativa al proyecto
-                Image image = Image.getInstance(imagePath);
-                image.scaleToFit(120, 70); // Ajustar el tamaño de la imagen según tus necesidades
+                    titleAndImage.add(new Phrase("Departamento de consultorías", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));
 
-                // Ajustar la posición del logo (experimenta con este valor)
-                float logoOffsetX = 20; // Puedes ajustar este valor según sea necesario
+                    String imagePath = "src/Imagenes/logopdf.png"; // Ruta relativa al proyecto
+                    Image image = Image.getInstance(imagePath);
+                    image.scaleToFit(120, 70); // Ajustar el tamaño de la imagen según tus necesidades
 
-                titleAndImage.add(new Chunk(image, logoOffsetX, 0, true));
+                    // Ajustar la posición del logo (experimenta con este valor)
+                    float logoOffsetX = 20; // Puedes ajustar este valor según sea necesario
 
-                // Centrar el párrafo
-                titleAndImage.setAlignment(Element.ALIGN_CENTER);
+                    titleAndImage.add(new Chunk(image, logoOffsetX, 0, true));
 
-                // Agregar título e imagen al documento
-                document.add(titleAndImage);
+                    // Centrar el párrafo
+                    titleAndImage.setAlignment(Element.ALIGN_CENTER);
 
-                // Agregar una línea en blanco después del título
-                document.add(new Paragraph(" "));
-                document.add(new Paragraph(" "));
-                // Agregar contenido al PDF (informe de detalle de pedidos)
-                document.add(new Paragraph("Informe de Detalle de Pedido"));
-                document.add(new Paragraph(" "));
+                    // Agregar título e imagen al documento
+                    document.add(titleAndImage);
 
-                PdfPTable table = new PdfPTable(columnNames.length);
+                    // Agregar una línea en blanco después del título
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph(" "));
+                    // Agregar contenido al PDF (informe de detalle de pedidos)
+                    document.add(new Paragraph("Informe de Detalle de Pedido"));
+                    document.add(new Paragraph(" "));
 
-                // Agregar encabezados de columna al PDF
-                for (String columnName : columnNames) {
-                    table.addCell(columnName);
-                }
+                    PdfPTable table = new PdfPTable(columnNames.length);
 
-                // Agregar datos de fila al PDF
-                for (Object value : rowData) {
-                    if (value != null) {
-                        table.addCell(value.toString());
-                    } else {
-                        // Manejar el caso en que el valor sea null (puedes agregar un valor predeterminado o simplemente no agregarlo)
-                        table.addCell("Valor Nulo");
+                    // Agregar encabezados de columna al PDF
+                    for (String columnName : columnNames) {
+                        table.addCell(columnName);
+                    }
+
+                    // Agregar datos de fila al PDF
+                    for (Object value : rowData) {
+                        if (value != null) {
+                            table.addCell(value.toString());
+                        } else {
+                            // Manejar el caso en que el valor sea null (puedes agregar un valor predeterminado o simplemente no agregarlo)
+                            table.addCell("Valor Nulo");
+                        }
+                    }
+
+                    document.add(table);
+
+                    // Agregar detalles adicionales
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph("Información detallada de la tabla:"));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph("- Nombre de producto: " + tblReporte.getValueAt(selectedRow, 0)));
+                    document.add(new Paragraph("- Descripción calibre: " + tblReporte.getValueAt(selectedRow, 1)));
+                    document.add(new Paragraph("- Cantidad total vendida del producto: " + tblReporte.getValueAt(selectedRow, 2)));
+
+                    // Agregar una página nueva para la siguiente fila (si existe)
+                    if (selectedRow < selectedRows.length - 1) {
+                        document.newPage();
                     }
                 }
-
-                document.add(table);
-
-                // Agregar una línea en blanco después de la tabla
-                document.add(new Paragraph(" "));
-
-                // Agregar detalles adicionales
-                document.add(new Paragraph("Informacion detallada de la tabla:"));
-                document.add(new Paragraph(" "));
-                document.add(new Paragraph("- Nombre de producto: " + tblReporte.getValueAt(selectedRow, 0)));
-                document.add(new Paragraph("- Descripcion calibre: " + tblReporte.getValueAt(selectedRow, 1)));
-                document.add(new Paragraph("- Cantidad total vendida del producto: " + tblReporte.getValueAt(selectedRow, 2)));
-                
             } else {
                 // Si el usuario cancela el diálogo, salir del método
                 return;
@@ -1115,8 +1260,8 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         // Mensaje de éxito
         JOptionPane.showMessageDialog(null, "PDF generado correctamente: " + pdfFileName, "Éxito", JOptionPane.INFORMATION_MESSAGE);
     } else {
-        // Si no hay una fila seleccionada, mostrar un mensaje
-        JOptionPane.showMessageDialog(null, "Selecciona una fila antes de generar el PDF", "Información", JOptionPane.INFORMATION_MESSAGE);
+        // Si no hay filas seleccionadas, mostrar un mensaje
+        JOptionPane.showMessageDialog(null, "Selecciona al menos una fila antes de generar el PDF", "Información", JOptionPane.INFORMATION_MESSAGE);
     }
     }//GEN-LAST:event_btnPDF2ActionPerformed
 
@@ -1293,42 +1438,18 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
     }//GEN-LAST:event_rdbVentaRechazadaActionPerformed
 
     private void btnPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPDFActionPerformed
-      // Obtener la fila seleccionada en la tabla
-    int selectedRow = tblReporte2.getSelectedRow();
+     int[] selectedRows = tblReporte2.getSelectedRows();
 
-    // Verificar si hay una fila seleccionada
-    if (selectedRow != -1) {
-        // Obtener los datos de la fila seleccionada
-        String pdfFileName;
-        String[] columnNames;
-        Object[] rowData;
-
-        // Verificar qué radiobutton está seleccionado
-        if (rdbVenta.isSelected()) {
-            // Acciones específicas para el informe de ventas
-            pdfFileName = "Informe_Venta_" + tblReporte2.getValueAt(selectedRow, 0) + ".pdf";
-            columnNames = new String[]{"ID cliente", "ID pedido", "Peso total", "Comision Maipo", "Estado", "Tipo seguro", "Total Pedido", "Total transportista", "IVA", "Total Final"};
-            rowData = new Object[]{tblReporte2.getValueAt(selectedRow, 0), tblReporte2.getValueAt(selectedRow, 1), tblReporte2.getValueAt(selectedRow, 2), tblReporte2.getValueAt(selectedRow, 3), tblReporte2.getValueAt(selectedRow, 4),
-                    tblReporte2.getValueAt(selectedRow, 5), tblReporte2.getValueAt(selectedRow, 6), tblReporte2.getValueAt(selectedRow, 7), tblReporte2.getValueAt(selectedRow, 8), tblReporte2.getValueAt(selectedRow, 9)};
-        } else if (rdbVentaRechazada.isSelected()) {
-            // Acciones específicas para el informe de ventas rechazadas
-            pdfFileName = "Informe_VentaRechazada_" + tblReporte2.getValueAt(selectedRow, 0) + ".pdf";
-            columnNames = new String[]{"ID cliente", "ID pedido", "Peso total", "Comision Maipo", "Estado", "Total Pedido", "IVA"};
-            rowData = new Object[]{tblReporte2.getValueAt(selectedRow, 0), tblReporte2.getValueAt(selectedRow, 1), tblReporte2.getValueAt(selectedRow, 2), tblReporte2.getValueAt(selectedRow, 3), tblReporte2.getValueAt(selectedRow, 4),
-                    tblReporte2.getValueAt(selectedRow, 5), tblReporte2.getValueAt(selectedRow, 6)};
-        } else {
-            // Manejar el caso en que ninguno de los radiobuttons esté seleccionado
-            JOptionPane.showMessageDialog(null, "Selecciona un tipo de informe antes de generar el PDF", "Información", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-
+    // Verificar si hay filas seleccionadas
+    if (selectedRows.length > 0) {
         // Crear un documento PDF
         Document document = new Document();
+
         try {
             // Crear un objeto JFileChooser
             JFileChooser fileChooser = new JFileChooser();
             // Mostrar el diálogo de guardar archivo
-            int userSelection = fileChooser.showSaveDialog(this);
+            int userSelection = fileChooser.showSaveDialog(null);
 
             // Verificar si el usuario seleccionó un lugar para guardar
             if (userSelection == JFileChooser.APPROVE_OPTION) {
@@ -1341,92 +1462,128 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
                 }
 
                 // Establecer el nombre del archivo PDF
-                pdfFileName = fileToSave.getAbsolutePath();
+                String pdfFileName = fileToSave.getAbsolutePath();
 
                 // Crear el archivo PDF
-                PdfWriter.getInstance(document, new FileOutputStream(pdfFileName));
+                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfFileName));
                 document.open();
 
-                Paragraph titleAndImage = new Paragraph();
-                int titleOffset = 10; // Ajusta este valor según sea necesario
+                // Iterar sobre las filas seleccionadas
+                for (int selectedRow : selectedRows) {
+                    // Obtener los datos de la fila seleccionada
+                    String[] columnNames;
+                    Object[] rowData;
 
-                // Agregar espacios al principio del título para desplazarlo a la derecha
-                for (int i = 0; i < titleOffset; i++) {
-                titleAndImage.add(new Chunk(" ", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));
-                }
-
-                titleAndImage.add(new Phrase("Departamento de consultorias", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));
-
-                String imagePath = "src/Imagenes/logopdf.png"; // Ruta relativa al proyecto
-                Image image = Image.getInstance(imagePath);
-                image.scaleToFit(120, 70); // Ajustar el tamaño de la imagen según tus necesidades
-
-                // Ajustar la posición del logo (experimenta con este valor)
-                float logoOffsetX = 20; // Puedes ajustar este valor según sea necesario
-
-                titleAndImage.add(new Chunk(image, logoOffsetX, 0, true));
-                // Centrar el párrafo
-                titleAndImage.setAlignment(Element.ALIGN_CENTER);
-
-                // Agregar título e imagen al documento
-                document.add(titleAndImage);
-
-                // Agregar una línea en blanco después del título
-                document.add(new Paragraph(" "));
-
-                // Agregar contenido al PDF
-                  document.add(new Paragraph(" "));
-                document.add(new Paragraph(" "));
-                document.add(new Paragraph("Reporte de pedido"));
-                document.add(new Paragraph(" "));
-              
-
-                PdfPTable table = new PdfPTable(columnNames.length);
-
-                // Agregar encabezados de columna al PDF
-                for (String columnName : columnNames) {
-                    table.addCell(columnName);
-                }
-
-                // Agregar datos de fila al PDF
-                for (Object value : rowData) {
-                    if (value != null) {
-                        table.addCell(value.toString());
+                    // Verificar qué radiobutton está seleccionado
+                    if (rdbVenta.isSelected()) {
+                        // Acciones específicas para el informe de ventas
+                        pdfFileName = "Informe_Venta_" + tblReporte2.getValueAt(selectedRow, 0) + ".pdf";
+                        columnNames = new String[]{"ID cliente", "ID pedido", "Peso total", "Comision Maipo", "Estado", "Tipo seguro", "Total Pedido", "Total transportista", "IVA", "Total Final"};
+                        rowData = new Object[]{tblReporte2.getValueAt(selectedRow, 0), tblReporte2.getValueAt(selectedRow, 1), tblReporte2.getValueAt(selectedRow, 2), tblReporte2.getValueAt(selectedRow, 3), tblReporte2.getValueAt(selectedRow, 4),
+                                tblReporte2.getValueAt(selectedRow, 5), tblReporte2.getValueAt(selectedRow, 6), tblReporte2.getValueAt(selectedRow, 7), tblReporte2.getValueAt(selectedRow, 8), tblReporte2.getValueAt(selectedRow, 9)};
+                    } else if (rdbVentaRechazada.isSelected()) {
+                        // Acciones específicas para el informe de ventas rechazadas
+                        pdfFileName = "Informe_VentaRechazada_" + tblReporte2.getValueAt(selectedRow, 0) + ".pdf";
+                        columnNames = new String[]{"ID cliente", "ID pedido", "Peso total", "Comision Maipo", "Estado", "Total Pedido", "IVA"};
+                        rowData = new Object[]{tblReporte2.getValueAt(selectedRow, 0), tblReporte2.getValueAt(selectedRow, 1), tblReporte2.getValueAt(selectedRow, 2), tblReporte2.getValueAt(selectedRow, 3), tblReporte2.getValueAt(selectedRow, 4),
+                                tblReporte2.getValueAt(selectedRow, 5), tblReporte2.getValueAt(selectedRow, 6)};
                     } else {
-                        // Manejar el caso en que el valor sea null (puedes agregar un valor predeterminado o simplemente no agregarlo)
-                        table.addCell("Valor Nulo");
+                        // Manejar el caso en que ninguno de los radiobuttons esté seleccionado
+                        JOptionPane.showMessageDialog(null, "Selecciona un tipo de informe antes de generar el PDF", "Información", JOptionPane.INFORMATION_MESSAGE);
+                        return;
                     }
+
+                    // Crear una nueva página para cada fila
+                    document.newPage();
+
+                    // Resto del código para agregar contenido al PDF
+                    // ...
+
+                    // Agregar contenido al PDF
+                    // ...
+
+                    Paragraph titleAndImage = new Paragraph();
+                    int titleOffset = 10; // Ajusta este valor según sea necesario
+
+                    // Agregar espacios al principio del título para desplazarlo a la derecha
+                    for (int i = 0; i < titleOffset; i++) {
+                        titleAndImage.add(new Chunk(" ", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));
+                    }
+
+                    titleAndImage.add(new Phrase("Departamento de consultorias", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));
+
+                    String imagePath = "src/Imagenes/logopdf.png"; // Ruta relativa al proyecto
+                    Image image = Image.getInstance(imagePath);
+                    image.scaleToFit(120, 70); // Ajustar el tamaño de la imagen según tus necesidades
+
+                    // Ajustar la posición del logo (experimenta con este valor)
+                    float logoOffsetX = 20; // Puedes ajustar este valor según sea necesario
+
+                    titleAndImage.add(new Chunk(image, logoOffsetX, 0, true));
+                    // Centrar el párrafo
+                    titleAndImage.setAlignment(Element.ALIGN_CENTER);
+
+                    // Agregar título e imagen al documento
+                    document.add(titleAndImage);
+
+                    // Agregar una línea en blanco después del título
+                    document.add(new Paragraph(" "));
+
+                    // Agregar contenido al PDF
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph("Reporte de pedido"));
+                    document.add(new Paragraph(" "));
+
+                    PdfPTable table = new PdfPTable(columnNames.length);
+                    document.add(new Paragraph(" "));
+
+                    // Agregar encabezados de columna al PDF
+                    for (String columnName : columnNames) {
+                        table.addCell(columnName);
+                    }
+
+                    // Agregar datos de fila al PDF
+                    for (Object value : rowData) {
+                        if (value != null) {
+                            table.addCell(value.toString());
+                        } else {
+                            // Manejar el caso en que el valor sea null (puedes agregar un valor predeterminado o simplemente no agregarlo)
+                            table.addCell("Valor Nulo");
+                        }
+                    }
+
+                    document.add(table);
+
+                    // Agregar más información debajo de la tabla
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph("Informacion detallada de la tabla:"));
+                    document.add(new Paragraph(" "));
+                    document.add(new Paragraph("- ID Cliente: " + tblReporte2.getValueAt(selectedRow, 0)));
+                    document.add(new Paragraph("- ID Pedido: " + tblReporte2.getValueAt(selectedRow, 1)));
+                    document.add(new Paragraph("- Peso total: " + tblReporte2.getValueAt(selectedRow, 2)));
+                    document.add(new Paragraph("- Comision Maipo Grande: " + tblReporte2.getValueAt(selectedRow, 3)));
+                    document.add(new Paragraph("- Estado del pedido: " + tblReporte2.getValueAt(selectedRow, 4)));
+                    document.add(new Paragraph("- Tipo de seguro: " + tblReporte2.getValueAt(selectedRow, 5)));
+                    document.add(new Paragraph("- Total pedido: " + tblReporte2.getValueAt(selectedRow, 6)));
+                    document.add(new Paragraph("- Total transporte: " + tblReporte2.getValueAt(selectedRow, 7)));
+                    document.add(new Paragraph("- IVA: " + tblReporte2.getValueAt(selectedRow, 8)));
+                    document.add(new Paragraph("- Total final: " + tblReporte2.getValueAt(selectedRow, 9)));
+
+                    // Agrega más líneas según sea necesario
                 }
 
-                document.add(table);
-
-                // Agregar una línea en blanco después de la tabla
-                document.add(new Paragraph(" "));
-
-                // Agregar más información debajo de la tabla
-                document.add(new Paragraph("Informacion detallada de la tabla:"));
-                document.add(new Paragraph(" "));
-                document.add(new Paragraph("- ID Cliente: " + tblReporte2.getValueAt(selectedRow, 0)));
-                document.add(new Paragraph("- ID Pedido: " + tblReporte2.getValueAt(selectedRow, 1)));
-                document.add(new Paragraph("- Peso total: " + tblReporte2.getValueAt(selectedRow, 2)));
-                document.add(new Paragraph("- Comision Maipo Grande: " + tblReporte2.getValueAt(selectedRow, 3)));
-                document.add(new Paragraph("- Estado del pedido: " + tblReporte2.getValueAt(selectedRow, 4)));
-                document.add(new Paragraph("- Tipo de seguro: " + tblReporte2.getValueAt(selectedRow, 5)));
-                document.add(new Paragraph("- Total pedido: " + tblReporte2.getValueAt(selectedRow, 6)));
-                document.add(new Paragraph("- Total transporte: " + tblReporte2.getValueAt(selectedRow, 7)));
-                document.add(new Paragraph("- IVA: " + tblReporte2.getValueAt(selectedRow, 8)));
-                document.add(new Paragraph("- Total final: " + tblReporte2.getValueAt(selectedRow, 9)));
-                
-                // Agrega más líneas según sea necesario
+                // Mensaje de éxito
+                JOptionPane.showMessageDialog(null, "PDF generado correctamente: " + pdfFileName, "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
             } else {
                 // Si el usuario cancela el diálogo, salir del método
                 return;
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al generar el PDF: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al generar el PDF: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             // Cerrar el documento fuera del bloque try
             if (document != null && document.isOpen()) {
@@ -1434,16 +1591,237 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
             }
         }
 
-        // Mensaje de éxito
-        JOptionPane.showMessageDialog(null, "PDF generado correctamente: " + pdfFileName, "Éxito", JOptionPane.INFORMATION_MESSAGE);
     } else {
-        // Si no hay una fila seleccionada, mostrar un mensaje
-        JOptionPane.showMessageDialog(null, "Selecciona una fila antes de generar el PDF", "Información", JOptionPane.INFORMATION_MESSAGE);
+        // Si no hay filas seleccionadas, mostrar un mensaje
+        JOptionPane.showMessageDialog(null, "Selecciona al menos una fila antes de generar el PDF", "Información", JOptionPane.INFORMATION_MESSAGE);
     }
     }//GEN-LAST:event_btnPDFActionPerformed
+private void agregarKeyListenerFechaInicio() {
+   // Agrega un KeyListener al campo txtFechaInicio
+    txtFechaInicio.addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // Obtén el carácter ingresado
+            char caracter = e.getKeyChar();
+            
+            // Verifica si el carácter no es un número ni la barra "/" o la longitud es mayor a 10
+            if (!Character.isDigit(caracter) && caracter != '-' || txtFechaInicio.getText().length() >= 10) {
+                // Consumir el evento para evitar que se ingrese el carácter
+                e.consume();
+            }
+        }
+    });
+}
+    private void txtFechaInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaInicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFechaInicioActionPerformed
+private void agregarKeyListenerFechaTermino() {
+   // Agrega un KeyListener al campo txtFechaInicio
+    txtFechaTermino.addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // Obtén el carácter ingresado
+            char caracter = e.getKeyChar();
+            
+            // Verifica si el carácter no es un número ni la barra "/" o la longitud es mayor a 10
+            if (!Character.isDigit(caracter) && caracter != '-' || txtFechaTermino.getText().length() >= 10) {
+                // Consumir el evento para evitar que se ingrese el carácter
+                e.consume();
+            }
+        }
+    });
+}
+    private void txtFechaTerminoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaTerminoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFechaTerminoActionPerformed
+private void agregarKeyListenerAnoo() {
+    // Agrega un KeyListener al campo txtRut
+    txtAno2.addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // Obtén el carácter ingresado
+            char caracter = e.getKeyChar();
+            
+            // Verifica si el carácter no es un número o la longitud es mayor a 8
+            if (!Character.isDigit(caracter) || txtAno2.getText().length() >= 4) {
+                // Consumir el evento para evitar que se ingrese el carácter
+                e.consume();
+            }
+        }
+    });
+}
+    private void txtAno2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAno2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAno2ActionPerformed
+private void agregarKeyListenerAno() {
+    // Agrega un KeyListener al campo txtRut
+    txtAno.addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // Obtén el carácter ingresado
+            char caracter = e.getKeyChar();
+            
+            // Verifica si el carácter no es un número o la longitud es mayor a 8
+            if (!Character.isDigit(caracter) || txtAno.getText().length() >= 4) {
+                // Consumir el evento para evitar que se ingrese el carácter
+                e.consume();
+            }
+        }
+    });
+}
+    private void txtAnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAnoActionPerformed
+
+    private void btnCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCSVActionPerformed
+      try {
+        // Obtener las filas seleccionadas
+        int[] selectedRows = tblReporte.getSelectedRows();
+
+        // Verificar si hay filas seleccionadas
+        if (selectedRows.length == 0) {
+            JOptionPane.showMessageDialog(null, "Selecciona al menos una fila antes de generar el CSV", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // Crear un objeto JFileChooser
+        JFileChooser fileChooser = new JFileChooser();
+        // Mostrar el diálogo de guardar archivo
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        // Verificar si el usuario seleccionó un lugar para guardar
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            // Obtener la ruta seleccionada
+            File fileToSave = fileChooser.getSelectedFile();
+
+            // Agregar la extensión .csv si no está presente en el nombre del archivo
+            if (!fileToSave.getAbsolutePath().toLowerCase().endsWith(".csv")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".csv");
+            }
+
+            // Establecer el nombre del archivo CSV
+            String csvFileName = fileToSave.getAbsolutePath();
+
+            // Crear el archivo CSV
+            FileWriter csvWriter = new FileWriter(csvFileName);
+
+            // Obtener el modelo de la tabla
+            DefaultTableModel model = (DefaultTableModel) tblReporte.getModel();
+
+            // Obtener el número de columnas en la tabla
+            int numCols = model.getColumnCount();
+
+            // Escribir encabezados de columna al archivo CSV
+            for (int i = 0; i < numCols; i++) {
+                csvWriter.append(model.getColumnName(i));
+                if (i < numCols - 1) {
+                    csvWriter.append(",");
+                }
+            }
+            csvWriter.append("\n");
+
+            // Escribir datos de fila seleccionada al archivo CSV
+            for (int selectedRow : selectedRows) {
+                for (int col = 0; col < numCols; col++) {
+                    csvWriter.append(model.getValueAt(selectedRow, col).toString());
+                    if (col < numCols - 1) {
+                        csvWriter.append(",");
+                    }
+                }
+                csvWriter.append("\n");
+            }
+
+            // Cerrar el escritor de CSV
+            csvWriter.close();
+
+            // Mensaje de éxito
+            JOptionPane.showMessageDialog(null, "CSV generado correctamente: " + csvFileName, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // Si el usuario cancela el diálogo, salir del método
+            return;
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al generar el CSV: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    }//GEN-LAST:event_btnCSVActionPerformed
+
+    private void btnCSV2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCSV2ActionPerformed
+     try {
+        // Obtener las filas seleccionadas
+        int[] selectedRows = tblReporte2.getSelectedRows();
+
+        // Verificar si hay filas seleccionadas
+        if (selectedRows.length == 0) {
+            JOptionPane.showMessageDialog(null, "Selecciona al menos una fila antes de generar el CSV", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // Crear un objeto JFileChooser
+        JFileChooser fileChooser = new JFileChooser();
+        // Mostrar el diálogo de guardar archivo
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        // Verificar si el usuario seleccionó un lugar para guardar
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            // Obtener la ruta seleccionada
+            File fileToSave = fileChooser.getSelectedFile();
+
+            // Agregar la extensión .csv si no está presente en el nombre del archivo
+            if (!fileToSave.getAbsolutePath().toLowerCase().endsWith(".csv")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".csv");
+            }
+
+            // Establecer el nombre del archivo CSV
+            String csvFileName = fileToSave.getAbsolutePath();
+
+            // Crear el archivo CSV
+            FileWriter csvWriter = new FileWriter(csvFileName);
+
+            // Obtener el modelo de la tabla
+            DefaultTableModel model = (DefaultTableModel) tblReporte2.getModel();
+
+            // Obtener el número de columnas en la tabla
+            int numCols = model.getColumnCount();
+
+            // Escribir encabezados de columna al archivo CSV
+            for (int i = 0; i < numCols; i++) {
+                csvWriter.append(model.getColumnName(i));
+                if (i < numCols - 1) {
+                    csvWriter.append(",");
+                }
+            }
+            csvWriter.append("\n");
+
+            // Escribir datos de fila seleccionada al archivo CSV
+            for (int selectedRow : selectedRows) {
+                for (int col = 0; col < numCols; col++) {
+                    csvWriter.append(model.getValueAt(selectedRow, col).toString());
+                    if (col < numCols - 1) {
+                        csvWriter.append(",");
+                    }
+                }
+                csvWriter.append("\n");
+            }
+
+            // Cerrar el escritor de CSV
+            csvWriter.close();
+
+            // Mensaje de éxito
+            JOptionPane.showMessageDialog(null, "CSV generado correctamente: " + csvFileName, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // Si el usuario cancela el diálogo, salir del método
+            return;
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al generar el CSV: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_btnCSV2ActionPerformed
 
     
-     public void cargar_detalle_reporte(){
+    /* public void cargar_detalle_reporte(){
        try {
         // Obtener el texto actual del txtAno
         String arg0 = txtAno.getText();
@@ -1472,11 +1850,11 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
         // Manejar la excepción aquí
         JOptionPane.showMessageDialog(null, "Error al cargar los productos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         ex.printStackTrace(); // O muestra un mensaje de error en lugar de imprimir la traza
-    }
+    }*/
 
 
-   }    
-    public static void main(String args[]) {
+       
+     public static void main(String args[]) {
        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -1486,13 +1864,15 @@ txtFechaTermino.getDocument().addDocumentListener(new DocumentListener() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnExcel;
+    private javax.swing.JButton btnCSV;
+    private javax.swing.JButton btnCSV2;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnImprimir2;
     private javax.swing.JButton btnPDF;
     private javax.swing.JButton btnPDF2;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JCheckBox chlSeleccionarTodo;
+    private javax.swing.JCheckBox cbxTodo;
+    private javax.swing.JCheckBox cbxTodo2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

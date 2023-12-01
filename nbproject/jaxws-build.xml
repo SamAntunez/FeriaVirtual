@@ -16,23 +16,6 @@
             <classpath path="${libs.jaxws21.classpath}"/>
         </taskdef>
     </target>
-    <target name="wsimport-client-WSFERIAVIRTUAL" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/WSFERIAVIRTUAL"/>
-        <property name="wsdl-WSFERIAVIRTUAL" location="xml-resources/web-service-references/WSFERIAVIRTUAL/wsdl/localhost_8080/WEBSERVICEFERIAVIRTUAL2/WSFERIAVIRTUAL.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/WSFERIAVIRTUAL" destdir="${build.generated.dir}/jax-wsCache/WSFERIAVIRTUAL" wsdl="${wsdl-WSFERIAVIRTUAL}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/WEBSERVICEFERIAVIRTUAL2/WSFERIAVIRTUAL?WSDL" xnocompile="true" xendorsed="true">
-            <depends file="${wsdl-WSFERIAVIRTUAL}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/WSFERIAVIRTUAL"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/WSFERIAVIRTUAL">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-WSFERIAVIRTUAL" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/WSFERIAVIRTUAL"/>
-        <delete dir="${build.generated.sources.dir}/jax-ws/ws"/>
-    </target>
     <target name="wsimport-client-WSREPORTERIAFV" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/WSREPORTERIAFV"/>
         <property name="wsdl-WSREPORTERIAFV" location="xml-resources/web-service-references/WSREPORTERIAFV/wsdl/localhost_8080/WSREPORTERIAFERIAVIRTUAL/WSREPORTERIAFV.wsdl"/>
@@ -50,5 +33,22 @@
         <delete dir="${build.generated.dir}/jax-wsCache/WSREPORTERIAFV"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/sw"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-WSFERIAVIRTUAL, wsimport-client-WSREPORTERIAFV"/>
+    <target name="wsimport-client-WSFERIAVIRTUAL" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/WSFERIAVIRTUAL"/>
+        <property name="wsdl-WSFERIAVIRTUAL" location="xml-resources/web-service-references/WSFERIAVIRTUAL/wsdl/localhost_8080/WEBSERVICEFERIAVIRTUAL2/WSFERIAVIRTUAL.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/WSFERIAVIRTUAL" destdir="${build.generated.dir}/jax-wsCache/WSFERIAVIRTUAL" wsdl="${wsdl-WSFERIAVIRTUAL}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/WEBSERVICEFERIAVIRTUAL2/WSFERIAVIRTUAL?WSDL" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-WSFERIAVIRTUAL}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/WSFERIAVIRTUAL"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/WSFERIAVIRTUAL">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-WSFERIAVIRTUAL" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/WSFERIAVIRTUAL"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/ws"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-WSREPORTERIAFV, wsimport-client-WSFERIAVIRTUAL"/>
 </project>

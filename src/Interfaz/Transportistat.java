@@ -5,6 +5,8 @@
 package Interfaz;
 
 import Widget.TextPrompt;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import ws.Transportista;
@@ -17,6 +19,8 @@ import ws.WSFERIAVIRTUAL;
 import ws.WebServiceFV;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFrame;
 import util.IconoUtil;
 
@@ -26,6 +30,8 @@ public class Transportistat extends javax.swing.JFrame {
     
     public Transportistat() {
         initComponents();
+        agregarKeyListenerRut();
+        agregaKeyListenerDV();
         //llamar logo 
         setIconImage(IconoUtil.obtenerIcono());
         DefaultTableModel model = (DefaultTableModel) tblTransportista.getModel();
@@ -35,7 +41,7 @@ public class Transportistat extends javax.swing.JFrame {
         servicioWeb = servicio.getWebServiceFVPort();   
         tblTransportista.setRowSelectionAllowed(false);
         tblTransportista.setDefaultEditor(Object.class, null);
-         TextPrompt prueba = new TextPrompt("dd-mm-yyyy", txtFechaNacimiento);
+       
       //   TextPrompt prueba = new TextPrompt("1 a 346", );
         
         
@@ -119,7 +125,6 @@ private void confirmarCerrarPrograma() {
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtFechaNacimiento = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtDireccion = new javax.swing.JTextField();
         txtApeP = new javax.swing.JTextField();
@@ -127,14 +132,13 @@ private void confirmarCerrarPrograma() {
         btnModificar = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         btnVolver = new javax.swing.JButton();
-        jTextField8 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
         txtDV = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
         btnEliminar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        dtchFechaNacimiento = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -181,6 +185,12 @@ private void confirmarCerrarPrograma() {
 
         jLabel3.setText("Rut");
 
+        txtRut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRutActionPerformed(evt);
+            }
+        });
+
         jLabel10.setText("Contraseña");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -191,12 +201,6 @@ private void confirmarCerrarPrograma() {
         jLabel2.setText("Transportista");
 
         jLabel5.setText("Apellido materno");
-
-        txtFechaNacimiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFechaNacimientoActionPerformed(evt);
-            }
-        });
 
         jLabel9.setText("Correo");
 
@@ -233,24 +237,21 @@ private void confirmarCerrarPrograma() {
             }
         });
 
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
+        txtDV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
+                txtDVActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Buscar transportista");
-
         jLabel14.setText("-");
 
+        btnEliminar.setBackground(new java.awt.Color(255, 153, 153));
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
             }
         });
-
-        jLabel11.setIcon(new javax.swing.ImageIcon("C:\\Users\\samue\\Documents\\NetBeansProjects\\ClienteJAVA\\img\\logo__1_-removebg-preview.png")); // NOI18N
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel15.setText("Ingresar datos");
@@ -260,37 +261,35 @@ private void confirmarCerrarPrograma() {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(68, 68, 68)
+                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(333, 333, 333))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(194, 194, 194)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(47, 47, 47)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel6)))
+                                        .addGap(44, 44, 44)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtCorreo)
                                     .addComponent(txtDireccion)
-                                    .addComponent(txtFechaNacimiento)
                                     .addComponent(txtApeM)
                                     .addComponent(txtApeP)
                                     .addComponent(txtNombre)
@@ -300,45 +299,50 @@ private void confirmarCerrarPrograma() {
                                         .addComponent(jLabel14)
                                         .addGap(8, 8, 8)
                                         .addComponent(txtDV, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dtchFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(55, 55, 55)
+                                .addGap(99, 99, 99)
                                 .addComponent(jLabel15)))
-                        .addGap(12, 12, 12)))
+                        .addGap(12, 12, 12))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(220, 220, 220)))
                 .addComponent(btnEliminar)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 693, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 693, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addGap(47, 47, 47)
-                                .addComponent(jLabel13)))
-                        .addGap(30, 30, 30))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel11)
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel13)))
+                .addGap(30, 30, 30))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel13))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(jLabel13))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(48, 48, 48)
-                                .addComponent(jLabel1)))
-                        .addGap(107, 107, 107)
+                        .addComponent(jLabel11)
+                        .addGap(50, 50, 50)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(103, 103, 103))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -358,10 +362,10 @@ private void confirmarCerrarPrograma() {
                             .addComponent(jLabel5)
                             .addComponent(txtApeM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
-                            .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(dtchFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -373,28 +377,13 @@ private void confirmarCerrarPrograma() {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
-                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel15)
-                                .addGap(5, 5, 5))
-                            .addComponent(jLabel11))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton5)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75)))
                 .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -410,9 +399,6 @@ private void confirmarCerrarPrograma() {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         Principal pantalla = new Principal();
@@ -431,10 +417,6 @@ private void confirmarCerrarPrograma() {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDireccionActionPerformed
 
-    private void txtFechaNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaNacimientoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaNacimientoActionPerformed
-
     private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCorreoActionPerformed
@@ -444,44 +426,56 @@ private void confirmarCerrarPrograma() {
     }//GEN-LAST:event_txtApeMActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-  String rutString = txtRut.getText();
+    String rutString = txtRut.getText();
     String dv = txtDV.getText();
     String nombre = txtNombre.getText();
     String apellidoPaterno = txtApeP.getText();
     String apellidoMaterno = txtApeM.getText();
-    String fechaNacimiento = txtFechaNacimiento.getText();
+    
+    // Obtener la fecha seleccionada del componente DateChooser
+    Date fechaNacimientoDate = dtchFechaNacimiento.getDate();
+
     String direccion = txtDireccion.getText();
     String correoElectronico = txtCorreo.getText();
     char[] contrasenaChars = txtPassword.getPassword();
-    String contrasena = new String(contrasenaChars); // Convierte el array de caracteres a String
+    String contrasena = new String(contrasenaChars);
 
-    // Validar que todos los campos estén llenos
-    if (!rutString.isEmpty() && !dv.isEmpty() && !nombre.isEmpty() && !apellidoPaterno.isEmpty()
-            && !apellidoMaterno.isEmpty() && !fechaNacimiento.isEmpty() && !direccion.isEmpty()
-            && !correoElectronico.isEmpty() && !contrasena.isEmpty()) {
-
-        int rut = 0; // Inicializar la variable rut como 0, un valor predeterminado
-
+    // Validar que todos los campos obligatorios estén llenos
+    if (rutString.isEmpty() || dv.isEmpty() || nombre.isEmpty() || apellidoPaterno.isEmpty()
+            || apellidoMaterno.isEmpty() || fechaNacimientoDate == null || direccion.isEmpty()
+            || correoElectronico.isEmpty() || contrasena.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, llena todos los campos obligatorios antes de intentar agregar el transportista.", "Error", JOptionPane.ERROR_MESSAGE);
+    } else {
+        int rut;
         try {
-            // Intenta convertir la cadena rutString a un valor int
+            // Intenta convertir el RUT a un número entero
             rut = Integer.parseInt(rutString);
         } catch (NumberFormatException e) {
-            // Si ocurre un error al convertir, muestra un mensaje de error y devuelve
-            JOptionPane.showMessageDialog(this, "Por favor, ingresa un número de rut válido.", "Error", JOptionPane.ERROR_MESSAGE);
-            return; // Sale del método porque el valor de rut no es válido
+            // Si no se puede convertir a un número, muestra un mensaje de error y sale del método
+            JOptionPane.showMessageDialog(this, "El RUT debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
+        // Formatear la fecha en el formato deseado (dd-MM-yyyy)
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String fechaNacimiento = dateFormat.format(fechaNacimientoDate);
+
         try {
-            // Llama al método del servicio web para agregar un transportista
+            // Llama al método del servicio web para agregar el transportista
             boolean resultado = servicioWeb.agregarTransportista(rut, dv, nombre, apellidoPaterno,
                     apellidoMaterno, fechaNacimiento, direccion, correoElectronico, contrasena);
 
             if (resultado) {
-                JOptionPane.showMessageDialog(this, "Transportista agregado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                // Limpia los campos después de agregar el transportista
+                // El transportista se registró correctamente
+                JOptionPane.showMessageDialog(this, "Transportista registrado correctamente.");
+                // Puedes limpiar los campos después de registrar el transportista si lo deseas
                 limpiarCampos();
+                // Limpia el JDateChooser
+                dtchFechaNacimiento.setDate(null);
+                // Actualiza la tabla después de registrar el transportista
             } else {
-                JOptionPane.showMessageDialog(this, "No se pudo agregar el transportista.", "Error", JOptionPane.ERROR_MESSAGE);
+                // Hubo un error al registrar el transportista
+                JOptionPane.showMessageDialog(this, "Error al registrar el transportista. Inténtalo de nuevo.");
             }
         } catch (Exception e) {
             // Muestra el mensaje de la excepción en un cuadro de diálogo
@@ -489,8 +483,6 @@ private void confirmarCerrarPrograma() {
             // Imprime la traza de la excepción en la consola
             e.printStackTrace();
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos para agregar el transportista.", "Error", JOptionPane.ERROR_MESSAGE);
     }
     cargar_transportistas();
 }
@@ -501,7 +493,7 @@ private void limpiarCampos() {
     txtNombre.setText("");
     txtApeP.setText("");
     txtApeM.setText("");
-    txtFechaNacimiento.setText("");
+    dtchFechaNacimiento.setDateFormatString("");
     txtDireccion.setText("");
     txtCorreo.setText("");
     txtPassword.setText("");
@@ -509,33 +501,31 @@ private void limpiarCampos() {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-     // Obtener valores de los campos de texto
+   // Verificar si no hay nada escrito en los campos de texto
+    if (txtRut.getText().isEmpty() && txtNombre.getText().isEmpty() && txtApeP.getText().isEmpty()
+            && txtApeM.getText().isEmpty() && txtDireccion.getText().isEmpty() && txtCorreo.getText().isEmpty()
+            && txtPassword.getPassword().length == 0 && dtchFechaNacimiento.getDate() == null) {
+        JOptionPane.showMessageDialog(this, "No hay cambios para modificar.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        return;  // Salir del método si no hay cambios para modificar
+    }
+
+    // Obtener valores de los campos de texto y del JDateChooser
     int rutBuscar = Integer.parseInt(txtRut.getText());
     String nombre = txtNombre.getText();
     String apellidoPaterno = txtApeP.getText();
     String apellidoMaterno = txtApeM.getText();
-    String fechaNacimiento = txtFechaNacimiento.getText();
-    String direccion = txtDireccion.getText();
-    String correoElectronico = txtCorreo.getText();
-    char[] contrasenaChars = txtPassword.getPassword();
-    String contrasena = new String(contrasenaChars);
+    
+    // Obtener la fecha seleccionada del componente DateChooser
+    Date fechaNacimientoDate = dtchFechaNacimiento.getDate();
 
-    // Llamar al método del servicio web para modificar el transportista
-    boolean resultado = servicioWeb.modificarTransportista(rutBuscar, nombre, apellidoPaterno, 
-            apellidoMaterno, fechaNacimiento, direccion, correoElectronico, contrasena);
-
-    if (resultado) {
-        JOptionPane.showMessageDialog(this, "Transportista modificado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        // Limpia los campos después de modificar el transportista
-        limpiarCampos();
+    // Verifica si los campos obligatorios están llenos
+    if (nombre.isEmpty() || apellidoPaterno.isEmpty() || apellidoMaterno.isEmpty() || fechaNacimientoDate == null) {
+        JOptionPane.showMessageDialog(this, "Por favor, llena todos los campos obligatorios antes de intentar modificar el transportista.", "Error", JOptionPane.ERROR_MESSAGE);
     } else {
-        JOptionPane.showMessageDialog(this, "No se pudo modificar el transportista.", "Error", JOptionPane.ERROR_MESSAGE);
+        // Resto del código para modificar el transportista...
     }
     cargar_transportistas();
     
-
-
-
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -566,6 +556,44 @@ private void limpiarCampos() {
     cargar_transportistas();
 
     }//GEN-LAST:event_btnEliminarActionPerformed
+ private void agregaKeyListenerDV() {
+    // Agrega un KeyListener al campo txtDV
+    txtDV.addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // Obtén el carácter ingresado
+            char caracter = e.getKeyChar();
+
+            // Verifica si el carácter no es un número ni la letra "k" o la longitud es mayor a 1
+            if (!(Character.isDigit(caracter) || (caracter == 'k' || caracter == 'K')) || txtDV.getText().length() >= 1) {
+                // Consumir el evento para evitar que se ingrese el carácter
+                e.consume();
+            }
+        }
+    });
+}
+    private void txtDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDVActionPerformed
+private void agregarKeyListenerRut() {
+    // Agrega un KeyListener al campo txtRut
+    txtRut.addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // Obtén el carácter ingresado
+            char caracter = e.getKeyChar();
+            
+            // Verifica si el carácter no es un número o la longitud es mayor a 8
+            if (!Character.isDigit(caracter) || txtRut.getText().length() >= 8) {
+                // Consumir el evento para evitar que se ingrese el carácter
+                e.consume();
+            }
+        }
+    });
+}
+    private void txtRutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRutActionPerformed
     public void cargar_transportistas() {    
         try {
     
@@ -639,7 +667,7 @@ private void limpiarCampos() {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JButton jButton5;
+    private com.toedter.calendar.JDateChooser dtchFechaNacimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -656,14 +684,12 @@ private void limpiarCampos() {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField8;
     private javax.swing.JTable tblTransportista;
     private javax.swing.JTextField txtApeM;
     private javax.swing.JTextField txtApeP;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtDV;
     private javax.swing.JTextField txtDireccion;
-    private javax.swing.JTextField txtFechaNacimiento;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtRut;

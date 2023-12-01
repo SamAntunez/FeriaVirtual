@@ -33,9 +33,39 @@ import ws.Pais;
 import ws.Region;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JTextField;
 import util.IconoUtil;
 
 public class Transportet extends javax.swing.JFrame {
+     private void txtPatenteKeyTyped(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        JTextField textField = (JTextField) evt.getSource();
+
+        // Limitar la longitud del campo a 6 caracteres
+        if (textField.getText().length() >= 6) {
+            evt.consume();
+            return;
+        }
+
+        // Verificar si el carácter es una letra o número
+        if (!(Character.isLetter(c) || Character.isDigit(c))) {
+            evt.consume();
+            return;
+        }
+
+        // Construir el nuevo texto con el carácter ingresado
+        String newText = textField.getText() + c;
+
+        // Validar el formato con una expresión regular
+        if (!validarPatente(newText)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Formato de patente incorrecto.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+   
     private Map<String, String> marcaMap = new HashMap<>();
     private Map<String, String> modeloMap = new HashMap<>();  
     private WebServiceFV servicioWeb;
@@ -114,6 +144,7 @@ public class Transportet extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTransporte = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -152,25 +183,35 @@ public class Transportet extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblTransporte);
 
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logologo.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel10))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)))
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                                .addGap(10, 10, 10)))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addGap(108, 108, 108)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -180,7 +221,7 @@ public class Transportet extends javax.swing.JFrame {
 
         jLabel3.setText("Patente");
 
-        jLabel4.setText("Capacidad");
+        jLabel4.setText("Capacidad (TON)");
 
         jLabel5.setText("Frigorificos");
 
@@ -200,6 +241,12 @@ public class Transportet extends javax.swing.JFrame {
         txtCapacidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCapacidadActionPerformed(evt);
+            }
+        });
+
+        txtPatente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPatenteActionPerformed(evt);
             }
         });
 
@@ -261,12 +308,12 @@ public class Transportet extends javax.swing.JFrame {
                                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(115, 115, 115)
+                                        .addGap(76, 76, 76)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel3)
-                                            .addComponent(jLabel4)
                                             .addComponent(jLabel8)
-                                            .addComponent(jLabel9))
+                                            .addComponent(jLabel9)
+                                            .addComponent(jLabel4))
                                         .addGap(0, 0, Short.MAX_VALUE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -363,25 +410,36 @@ private String obtenerIdModeloSeleccionado() {
     String idModeloSeleccionado = modeloMap.get(nombreModeloSeleccionado);
     return idModeloSeleccionado;
 }
+private boolean validarPatente(String patente) {
+    // Expresión regular para validar el formato de la patente
+    String regex = "[A-Z]{2}\\d{4}|[A-Z]{4}\\d{2}";
+    Pattern pattern = Pattern.compile(regex);
+    Matcher matcher = pattern.matcher(patente);
+    return matcher.matches();
+}
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
     try {
-        // Obtener los valores del producto desde los campos de texto y ComboBox        
-        
+        // Obtener los valores del producto desde los campos de texto y ComboBox
+
         String frigorificoTrans = (String) cmbFrigorifico.getSelectedItem();
         String permisoCirculacion = (String) cmbPermiso.getSelectedItem();
         String idModeloSeleccionado = obtenerIdModeloSeleccionado();
         int ruti = Integer.parseInt(rut);
         String patente = txtPatente.getText();
         int capacidadCarga = Integer.parseInt(txtCapacidad.getText());
-        
-        
+
+        // Validar el formato de la patente
+        if (!validarPatente(patente)) {
+            JOptionPane.showMessageDialog(this, "Formato de patente incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Salir del método si la patente no es válida
+        }
 
         // Convertir valores de frigorífico y permiso de circulación a 1 y 0 y luego a cadenas
         String valorFrigorifico = frigorificoTrans.equalsIgnoreCase("Si") ? "1" : "0";
         String valorPermiso = permisoCirculacion.equalsIgnoreCase("Si") ? "1" : "0";
 
-        // Obtener el valor de rut directamente como entero
-        
+        // Resto del código para obtener valores y realizar la operación de agregar transporte...
+
         // Llamar al método para agregar un nuevo transporte
         boolean resultado = servicioWeb.agregarTransporte(patente, capacidadCarga, valorFrigorifico, valorPermiso, ruti, idModeloSeleccionado);
 
@@ -389,7 +447,7 @@ private String obtenerIdModeloSeleccionado() {
         if (resultado) {
             // El transporte se agregó correctamente, puedes mostrar un mensaje de éxito o realizar alguna otra acción
             JOptionPane.showMessageDialog(this, "Transporte agregado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-             cargar_datos();
+            cargar_datos();
             // Aquí puedes agregar código para limpiar los campos de texto después de agregar el transporte si es necesario
         } else {
             // Hubo un problema al agregar el transporte, muestra un mensaje de error o realiza acciones apropiadas
@@ -489,6 +547,10 @@ private String obtenerIdModeloSeleccionado() {
         pantalla.setLocationRelativeTo(null);
         dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void txtPatenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPatenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPatenteActionPerformed
      
 
   private void cargar_datos(){
@@ -551,6 +613,7 @@ private String obtenerIdModeloSeleccionado() {
     private javax.swing.JComboBox<String> cmbModelo;
     private javax.swing.JComboBox<String> cmbPermiso;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
